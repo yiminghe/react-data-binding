@@ -290,7 +290,6 @@ User = createContainer({
   myUser: 'user'
 })(User);
 
-
 let App = React.createClass({
   render() {
     return <span class="hljs-tag">&lt;<span class="hljs-title">User</span> /&gt;</span>;</span>
@@ -303,6 +302,18 @@ App = createRootContainer({
     name: <span class="hljs-string">'initial'</span>
   }
 })(App);
+
+<span class="hljs-comment">/*
+ or use decorators
+
+ @createRootContainer({
+   // initial app data
+   user: {
+    name: 'initial'
+   }
+ })
+ class App extends React.Component {}
+ */</span>
 
 ReactDOM.render(<span class="xml"><span class="hljs-tag">&lt;<span class="hljs-title">App</span> /&gt;</span>, document.getElementById('__react-content'));
 </span></code></pre></div>

@@ -69,6 +69,18 @@ webpackJsonp([0,1],[
 	  }
 	})(App);
 	
+	/*
+	 or use decorators
+	
+	 @createRootContainer({
+	   // initial app data
+	   user: {
+	    name: 'initial'
+	   }
+	 })
+	 class App extends React.Component {}
+	 */
+	
 	_reactDom2['default'].render(_react2['default'].createElement(App, null), document.getElementById('__react-content'));
 
 /***/ },
