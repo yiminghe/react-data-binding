@@ -69,6 +69,18 @@ App = createRootContainer({
   }
 })(App);
 
+/*
+ or use decorators
+
+ @createRootContainer({
+    // initial app data
+    user: {
+      name: 'initial'
+    }
+  })
+  class App {}
+*/
+
 ReactDOM.render(<App />, document.getElementById('__react-content'));
 ```
 
