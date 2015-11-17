@@ -1,0 +1,56 @@
+{
+  "name": "react-data-binding",
+  "version": "0.1.1",
+  "description": "do react data binding easily",
+  "keywords": [
+    "react",
+    "application",
+    "data"
+  ],
+  "files": [
+    "lib"
+  ],
+  "main": "lib/index",
+  "homepage": "https://github.com/yiminghe/react-data-binding",
+  "author": "yiminghe@gmail.com",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yiminghe/react-data-binding"
+  },
+  "bugs": {
+    "url": "https://github.com/yiminghe/react-data-binding/issues"
+  },
+  "licenses": "MIT",
+  "config": {
+    "port": 8111
+  },
+  "scripts": {
+    "build": "rc-tools run build",
+    "gh-pages": "rc-tools run gh-pages",
+    "start": "rc-server",
+    "pub": "rc-tools run pub",
+    "lint": "rc-tools run lint",
+    "karma": "rc-tools run karma",
+    "saucelabs": "rc-tools run saucelabs",
+    "browser-test": "rc-tools run browser-test",
+    "browser-test-cover": "rc-tools run browser-test-cover"
+  },
+  "devDependencies": {
+    "expect.js": "~0.3.1",
+    "pre-commit": "1.x",
+    "rc-server": "3.x",
+    "rc-tools": "4.x",
+    "react": "0.14.x",
+    "react-addons-test-utils": "~0.14.0",
+    "react-dom": "0.14.x"
+  },
+  "pre-commit": [
+    "lint"
+  ],
+  "dependencies": {
+    "hoist-non-react-statics": "~1.0.3",
+    "object-assign": "~4.0.1",
+    "reselect": "~2.0.1",
+    "shallowequal": "~0.2.2"
+  }
+}
