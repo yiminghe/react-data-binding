@@ -1,6 +1,5 @@
 import shallowEqual from 'shallowequal';
-import React, {Component, PropTypes, Children} from 'react';
-import assign from 'object-assign';
+import React, {Component} from 'react';
 import { storeShape } from './constants';
 import { createStructuredSelector } from 'reselect';
 import hoistStatics from 'hoist-non-react-statics';
@@ -14,22 +13,22 @@ function createSelectGetter(s) {
 }
 
 export function createContainer(selector_, option = {}) {
-  const {pure=true} = option;
+  const {pure = true} = option;
   let selector = selector_;
 
   if (typeof selector === 'object') {
     const selectMap = {};
-    for (var s in selector) {
+    for (const s in selector) {
       if (selector.hasOwnProperty(s)) {
         selectMap[s] = createSelectGetter(selector[s]);
       }
     }
-    selector = createStructuredSelector(selectMap)
+    selector = createStructuredSelector(selectMap);
   }
 
   const shouldUpdateStateProps = selector.length > 1;
 
-  return function (WrappedComponent) {
+  return function create(WrappedComponent) {
     class Container extends Component {
       constructor(props, context) {
         super(props, context);
@@ -38,6 +37,12 @@ export function createContainer(selector_, option = {}) {
         this.state = {
           appState: this.getAppState() || {},
         };
+      }
+
+      componentDidMount() {
+        if (!this.unsubscribe) {
+          this.unsubscribe = this.context.store.onChange(this.onChange);
+        }
       }
 
       componentWillReceiveProps(nextProps) {
@@ -67,27 +72,8 @@ export function createContainer(selector_, option = {}) {
             return true;
           }
           return !shallowEqual(nextState.appState, this.state.appState);
-        } else {
-          return true;
         }
-      }
-
-      updateStore(state) {
-        this.context.store.setState(state);
-      }
-
-      getAppState(props = this.props) {
-        const store = this.context.store;
-        const state = store.getState();
-        return shouldUpdateStateProps ?
-          selector(state, props) :
-          selector(state);
-      }
-
-      componentDidMount() {
-        if (!this.unsubscribe) {
-          this.unsubscribe = this.context.store.onChange(this.onChange);
-        }
+        return true;
       }
 
       componentWillUnmount() {
@@ -103,8 +89,20 @@ export function createContainer(selector_, option = {}) {
         });
       }
 
+      getAppState(props = this.props) {
+        const store = this.context.store;
+        const state = store.getState();
+        return shouldUpdateStateProps ?
+          selector(state, props) :
+          selector(state);
+      }
+
+      updateStore(state) {
+        this.context.store.setState(state);
+      }
+
       render() {
-        const {appState}=this.state;
+        const {appState} = this.state;
         return (
           <WrappedComponent {...appState}
             store={this.context.store.getState()}
@@ -117,9 +115,9 @@ export function createContainer(selector_, option = {}) {
     Container.displayName = `Container(${getDisplayName(WrappedComponent)})`;
     Container.WrappedComponent = WrappedComponent;
     Container.contextTypes = {
-      store: storeShape
+      store: storeShape,
     };
 
     return hoistStatics(Container, WrappedComponent);
-  }
+  };
 }

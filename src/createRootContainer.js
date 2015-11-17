@@ -1,15 +1,15 @@
 import { RootContainer } from './RootContainer';
 import { Store } from './Store';
-import React, {Component} from 'react';
+import React from 'react';
 
 function createRootContainerWrapper(WrappedComponent, store) {
-  const RootContainerWrapper = React.createClass({
+  class RootContainerWrapper extends React.Component {
     render() {
       return (<RootContainer store={store}>
         <WrappedComponent {...this.props}/>
       </RootContainer>);
     }
-  });
+  }
   return RootContainerWrapper;
 }
 

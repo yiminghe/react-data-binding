@@ -16,22 +16,22 @@ export class Store {
   }
 
   fireChange() {
-    this.listeners.slice().forEach(listener => listener())
+    this.listeners.slice().forEach(listener => listener());
   }
 
   onChange(listener) {
     const listeners = this.listeners;
     listeners.push(listener);
-    var isSubscribed = true;
+    let isSubscribed = true;
 
     return function unsubscribe() {
       if (!isSubscribed) {
         return;
       }
       isSubscribed = false;
-      var index = listeners.indexOf(listener);
+      const index = listeners.indexOf(listener);
       listeners.splice(index, 1);
-    }
+    };
   }
 
   getState() {

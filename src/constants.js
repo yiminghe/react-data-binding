@@ -1,3 +1,3 @@
-import { Component, PropTypes, Children } from 'react';
+import { PropTypes } from 'react';
 
 export const storeShape = PropTypes.object.isRequired;
