@@ -23,7 +23,7 @@ webpackJsonp([0,1],[
 	
 	var _reactDom2 = _interopRequireDefault(_reactDom);
 	
-	var _objectAssign = __webpack_require__(167);
+	var _objectAssign = __webpack_require__(173);
 	
 	var _objectAssign2 = _interopRequireDefault(_objectAssign);
 	
@@ -98,7 +98,7 @@ webpackJsonp([0,1],[
 	  }
 	});
 	
-	var _createRootContainer = __webpack_require__(171);
+	var _createRootContainer = __webpack_require__(170);
 	
 	Object.defineProperty(exports, 'createRootContainer', {
 	  enumerable: true,
@@ -139,15 +139,11 @@ webpackJsonp([0,1],[
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _objectAssign = __webpack_require__(167);
+	var _constants = __webpack_require__(167);
 	
-	var _objectAssign2 = _interopRequireDefault(_objectAssign);
+	var _reselect = __webpack_require__(168);
 	
-	var _constants = __webpack_require__(168);
-	
-	var _reselect = __webpack_require__(169);
-	
-	var _hoistNonReactStatics = __webpack_require__(170);
+	var _hoistNonReactStatics = __webpack_require__(169);
 	
 	var _hoistNonReactStatics2 = _interopRequireDefault(_hoistNonReactStatics);
 	
@@ -180,7 +176,7 @@ webpackJsonp([0,1],[
 	
 	  var shouldUpdateStateProps = selector.length > 1;
 	
-	  return function (WrappedComponent) {
+	  return function create(WrappedComponent) {
 	    var Container = (function (_Component) {
 	      _inherits(Container, _Component);
 	
@@ -196,6 +192,13 @@ webpackJsonp([0,1],[
 	      }
 	
 	      _createClass(Container, [{
+	        key: 'componentDidMount',
+	        value: function componentDidMount() {
+	          if (!this.unsubscribe) {
+	            this.unsubscribe = this.context.store.onChange(this.onChange);
+	          }
+	        }
+	      }, {
 	        key: 'componentWillReceiveProps',
 	        value: function componentWillReceiveProps(nextProps) {
 	          var appState = undefined;
@@ -225,30 +228,8 @@ webpackJsonp([0,1],[
 	              return true;
 	            }
 	            return !(0, _shallowequal2['default'])(nextState.appState, this.state.appState);
-	          } else {
-	            return true;
 	          }
-	        }
-	      }, {
-	        key: 'updateStore',
-	        value: function updateStore(state) {
-	          this.context.store.setState(state);
-	        }
-	      }, {
-	        key: 'getAppState',
-	        value: function getAppState() {
-	          var props = arguments.length <= 0 || arguments[0] === undefined ? this.props : arguments[0];
-	
-	          var store = this.context.store;
-	          var state = store.getState();
-	          return shouldUpdateStateProps ? selector(state, props) : selector(state);
-	        }
-	      }, {
-	        key: 'componentDidMount',
-	        value: function componentDidMount() {
-	          if (!this.unsubscribe) {
-	            this.unsubscribe = this.context.store.onChange(this.onChange);
-	          }
+	          return true;
 	        }
 	      }, {
 	        key: 'componentWillUnmount',
@@ -264,6 +245,20 @@ webpackJsonp([0,1],[
 	          this.setState({
 	            appState: this.getAppState()
 	          });
+	        }
+	      }, {
+	        key: 'getAppState',
+	        value: function getAppState() {
+	          var props = arguments.length <= 0 || arguments[0] === undefined ? this.props : arguments[0];
+	
+	          var store = this.context.store;
+	          var state = store.getState();
+	          return shouldUpdateStateProps ? selector(state, props) : selector(state);
+	        }
+	      }, {
+	        key: 'updateStore',
+	        value: function updateStore(state) {
+	          this.context.store.setState(state);
 	        }
 	      }, {
 	        key: 'render',
@@ -20603,51 +20598,6 @@ webpackJsonp([0,1],[
 
 /***/ },
 /* 167 */
-/***/ function(module, exports) {
-
-	/* eslint-disable no-unused-vars */
-	'use strict';
-	var hasOwnProperty = Object.prototype.hasOwnProperty;
-	var propIsEnumerable = Object.prototype.propertyIsEnumerable;
-	
-	function toObject(val) {
-		if (val === null || val === undefined) {
-			throw new TypeError('Object.assign cannot be called with null or undefined');
-		}
-	
-		return Object(val);
-	}
-	
-	module.exports = Object.assign || function (target, source) {
-		var from;
-		var to = toObject(target);
-		var symbols;
-	
-		for (var s = 1; s < arguments.length; s++) {
-			from = Object(arguments[s]);
-	
-			for (var key in from) {
-				if (hasOwnProperty.call(from, key)) {
-					to[key] = from[key];
-				}
-			}
-	
-			if (Object.getOwnPropertySymbols) {
-				symbols = Object.getOwnPropertySymbols(from);
-				for (var i = 0; i < symbols.length; i++) {
-					if (propIsEnumerable.call(from, symbols[i])) {
-						to[symbols[i]] = from[symbols[i]];
-					}
-				}
-			}
-		}
-	
-		return to;
-	};
-
-
-/***/ },
-/* 168 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -20662,7 +20612,7 @@ webpackJsonp([0,1],[
 	exports.storeShape = storeShape;
 
 /***/ },
-/* 169 */
+/* 168 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -20780,7 +20730,7 @@ webpackJsonp([0,1],[
 	}
 
 /***/ },
-/* 170 */
+/* 169 */
 /***/ function(module, exports) {
 
 	/**
@@ -20822,7 +20772,7 @@ webpackJsonp([0,1],[
 
 
 /***/ },
-/* 171 */
+/* 170 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -20830,30 +20780,51 @@ webpackJsonp([0,1],[
 	Object.defineProperty(exports, '__esModule', {
 	  value: true
 	});
+	
+	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+	
+	var _get = function get(_x2, _x3, _x4) { var _again = true; _function: while (_again) { var object = _x2, property = _x3, receiver = _x4; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x2 = parent; _x3 = property; _x4 = receiver; _again = true; desc = parent = undefined; continue _function; } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
+	
 	exports.createRootContainer = createRootContainer;
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 	
-	var _RootContainer = __webpack_require__(172);
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 	
-	var _Store = __webpack_require__(173);
+	function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var _RootContainer = __webpack_require__(171);
+	
+	var _Store = __webpack_require__(172);
 	
 	var _react = __webpack_require__(10);
 	
 	var _react2 = _interopRequireDefault(_react);
 	
 	function createRootContainerWrapper(WrappedComponent, store) {
-	  var RootContainerWrapper = _react2['default'].createClass({
-	    displayName: 'RootContainerWrapper',
+	  var RootContainerWrapper = (function (_React$Component) {
+	    _inherits(RootContainerWrapper, _React$Component);
 	
-	    render: function render() {
-	      return _react2['default'].createElement(
-	        _RootContainer.RootContainer,
-	        { store: store },
-	        _react2['default'].createElement(WrappedComponent, this.props)
-	      );
+	    function RootContainerWrapper() {
+	      _classCallCheck(this, RootContainerWrapper);
+	
+	      _get(Object.getPrototypeOf(RootContainerWrapper.prototype), 'constructor', this).apply(this, arguments);
 	    }
-	  });
+	
+	    _createClass(RootContainerWrapper, [{
+	      key: 'render',
+	      value: function render() {
+	        return _react2['default'].createElement(
+	          _RootContainer.RootContainer,
+	          { store: store },
+	          _react2['default'].createElement(WrappedComponent, this.props)
+	        );
+	      }
+	    }]);
+	
+	    return RootContainerWrapper;
+	  })(_react2['default'].Component);
+	
 	  return RootContainerWrapper;
 	}
 	
@@ -20867,7 +20838,7 @@ webpackJsonp([0,1],[
 	}
 
 /***/ },
-/* 172 */
+/* 171 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -20886,7 +20857,7 @@ webpackJsonp([0,1],[
 	
 	var _react = __webpack_require__(10);
 	
-	var _constants = __webpack_require__(168);
+	var _constants = __webpack_require__(167);
 	
 	var RootContainer = (function (_Component) {
 	  _inherits(RootContainer, _Component);
@@ -20926,7 +20897,7 @@ webpackJsonp([0,1],[
 	};
 
 /***/ },
-/* 173 */
+/* 172 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -20941,7 +20912,7 @@ webpackJsonp([0,1],[
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 	
-	var _objectAssign = __webpack_require__(167);
+	var _objectAssign = __webpack_require__(173);
 	
 	var _objectAssign2 = _interopRequireDefault(_objectAssign);
 	
@@ -21000,6 +20971,51 @@ webpackJsonp([0,1],[
 	})();
 
 	exports.Store = Store;
+
+/***/ },
+/* 173 */
+/***/ function(module, exports) {
+
+	/* eslint-disable no-unused-vars */
+	'use strict';
+	var hasOwnProperty = Object.prototype.hasOwnProperty;
+	var propIsEnumerable = Object.prototype.propertyIsEnumerable;
+	
+	function toObject(val) {
+		if (val === null || val === undefined) {
+			throw new TypeError('Object.assign cannot be called with null or undefined');
+		}
+	
+		return Object(val);
+	}
+	
+	module.exports = Object.assign || function (target, source) {
+		var from;
+		var to = toObject(target);
+		var symbols;
+	
+		for (var s = 1; s < arguments.length; s++) {
+			from = Object(arguments[s]);
+	
+			for (var key in from) {
+				if (hasOwnProperty.call(from, key)) {
+					to[key] = from[key];
+				}
+			}
+	
+			if (Object.getOwnPropertySymbols) {
+				symbols = Object.getOwnPropertySymbols(from);
+				for (var i = 0; i < symbols.length; i++) {
+					if (propIsEnumerable.call(from, symbols[i])) {
+						to[symbols[i]] = from[symbols[i]];
+					}
+				}
+			}
+		}
+	
+		return to;
+	};
+
 
 /***/ },
 /* 174 */
