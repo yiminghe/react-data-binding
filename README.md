@@ -78,7 +78,7 @@ App = createRootContainer({
       name: 'initial'
     }
   })
-  class App {}
+  class App extends React.Component {}
 */
 
 ReactDOM.render(<App />, document.getElementById('__react-content'));

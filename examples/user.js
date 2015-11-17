@@ -24,7 +24,6 @@ User = createContainer({
   myUser: 'user'
 })(User);
 
-
 let App = React.createClass({
   render() {
     return <User />;
@@ -37,5 +36,17 @@ App = createRootContainer({
     name: 'initial'
   }
 })(App);
+
+/*
+ or use decorators
+
+ @createRootContainer({
+   // initial app data
+   user: {
+    name: 'initial'
+   }
+ })
+ class App extends React.Component {}
+ */
 
 ReactDOM.render(<App />, document.getElementById('__react-content'));
