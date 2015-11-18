@@ -7,7 +7,7 @@
   <meta charset="utf-8"/>
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link href="//cdnjs.cloudflare.com/ajax/libs/normalize/3.0.3/normalize.css" rel="stylesheet"/>
-  <title>react-data-binding@0.2.0 - do react data binding easily</title>
+  <title>react-data-binding@0.2.1 - do react data binding easily</title>
   <style>
     @font-face {
       font-family: octicons-anchor;
@@ -737,12 +737,14 @@
 
 <body>
 <div class="header">
-  <h1>react-data-binding@0.2.0</h1>
+  <h1>react-data-binding@0.2.1</h1>
 </div>
 <div class="examples">
   <h3>EXAMPLES</h3>
   <div class="examples-body">
     <ul>
+      
+      <li><a href="examples/redux.html">redux</a></li>
       
       <li><a href="examples/user.html">user</a></li>
       
@@ -761,57 +763,42 @@
 <a href="http://nodejs.org/download/" title="null"><img src="https://img.shields.io/badge/node.js-%3E=_0.10-green.svg?style=flat-square" alt="node version"></a>
 <a href="https://npmjs.org/package/react-data-binding" title="null"><img src="https://img.shields.io/npm/dm/react-data-binding.svg?style=flat-square" alt="npm download"></a></p>
 <h2>examples<a id="user-content-examples" name="examples" class="anchor" aria-hidden="true" href="#examples"><span class="octicon octicon-link"></span></a></h2><p><a href="http://yiminghe.github.io/react-data-binding" title="null">http://yiminghe.github.io/react-data-binding</a></p>
-<div class="highlight"><pre><code language="js">import {createContainer, createRootContainer} from <span class="hljs-string">'react-data-binding'</span>;
-import React from <span class="hljs-string">'react'</span>;
-import ReactDOM from <span class="hljs-string">'react-dom'</span>;
-import assign from <span class="hljs-string">'object-assign'</span>;
+<p>work with redux: <a href="http://yiminghe.github.io/react-data-binding/examples/redux.html" title="null">http://yiminghe.github.io/react-data-binding/examples/redux.html</a></p>
+<div class="highlight"><pre><code language="js">@createContainer({
+  <span class="hljs-comment">// specify data need to be concerned</span>
+  myUser: <span class="hljs-string">'user'</span>
+})
+<span class="hljs-keyword">class</span> User extends Component {
 
-<span class="hljs-keyword">let</span> User = React.createClass({
+  @autobind
   onClick(e) {
     e.preventDefault();
     <span class="hljs-comment">// trigger re render</span>
     <span class="hljs-keyword">this</span>.props.setStoreState({
-      <span class="hljs-comment">// or use immutable.js</span>
-      user: assign({}, <span class="hljs-keyword">this</span>.props.myUser, {
+      <span class="hljs-comment">// better use immutable.js</span>
+      user: {
         name: <span class="hljs-string">'updated: '</span> + <span class="hljs-built_in">Date</span>.now()
-      })
+      }
     });
-  },
+  }
+
   render() {
     <span class="hljs-keyword">return</span> (<span class="xml"><span class="hljs-tag">&lt;<span class="hljs-title">a</span> <span class="hljs-attribute">href</span>=<span class="hljs-value">"#"</span> <span class="hljs-attribute">onClick</span>=<span class="hljs-value">{this.onClick}</span>&gt;</span>{this.props.myUser.name}<span class="hljs-tag">&lt;/<span class="hljs-title">a</span>&gt;</span>);
   }
-});
-
-User = createContainer({
-  // specify data need to be concerned
-  myUser: 'user'
-})(User);
+}
 
 
-let App = React.createClass({
-  render() {
-    return <span class="hljs-tag">&lt;<span class="hljs-title">User</span> /&gt;</span>;</span>
-  }
-});
-
-App = createRootContainer({
-  <span class="hljs-comment">// initial app data</span>
+@createRootContainer({
+  // initial app data
   user: {
-    name: <span class="hljs-string">'initial'</span>
+    name: 'initial'
   }
-})(App);
-
-<span class="hljs-comment">/*
- or use decorators
-
- @createRootContainer({
-    // initial app data
-    user: {
-      name: 'initial'
-    }
-  })
-  class App extends React.Component {}
-*/</span>
+})
+class App extends React.Component {
+  render() {
+    return <span class="hljs-tag">&lt;<span class="hljs-title">User</span>/&gt;</span>;</span>
+  }
+}
 
 ReactDOM.render(<span class="xml"><span class="hljs-tag">&lt;<span class="hljs-title">App</span> /&gt;</span>, document.getElementById('__react-content'));</span></code></pre></div><h2>api<a id="user-content-api" name="api" class="anchor" aria-hidden="true" href="#api"><span class="octicon octicon-link"></span></a></h2><h3>Store<a id="user-content-store" name="store" class="anchor" aria-hidden="true" href="#store"><span class="octicon octicon-link"></span></a></h3><p>build in Store class, you can extend it to create your own store(such as redux store with reducer/dispatch).</p>
 <h3>createRootContainer(initialAppData: Object|Store): (Function(WrappedComponent:ReactComponent):ReactComponent)<a id="user-content-createrootcontainer(initialappdata:-object|store):-(function(wrappedcomponent:reactcomponent):reactcomponent)" name="createrootcontainer(initialappdata:-object|store):-(function(wrappedcomponent:reactcomponent):reactcomponent)" class="anchor" aria-hidden="true" href="#createrootcontainer(initialappdata:-object|store):-(function(wrappedcomponent:reactcomponent):reactcomponent)"><span class="octicon octicon-link"></span></a></h3><p>bind the initial global store state to react root component and generate a high order React Component.</p>

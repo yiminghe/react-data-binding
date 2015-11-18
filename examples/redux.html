@@ -2,7 +2,7 @@
 <html>
 
 <head>
-  <title>user.js - example - react-data-binding@0.2.1</title>
+  <title>redux.js - example - react-data-binding@0.2.1</title>
   <meta name="viewport"
         content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
   <meta charset="utf-8"/>
@@ -263,14 +263,43 @@ Monokai Sublime style. Derived from Monokai by noformnocontent http://nn.mit-lic
   </div>
   <div class="example" id="__react-content"></div>
   <script src="common.js?nowrap"></script>
-  <script src="user.js?nowrap"></script>
-  <div class="highlight"><pre><code language="js">import {createContainer, createRootContainer} from <span class="hljs-string">'react-data-binding'</span>;
+  <script src="redux.js?nowrap"></script>
+  <div class="highlight"><pre><code language="js">import { createStore, combineReducers } from <span class="hljs-string">'redux'</span>;
+import assign from <span class="hljs-string">'object-assign'</span>;
+import {createContainer, createRootContainer} from <span class="hljs-string">'react-data-binding'</span>;
+import autobind from <span class="hljs-string">'autobind-decorator'</span>;
 import React, {Component} from <span class="hljs-string">'react'</span>;
 import ReactDOM from <span class="hljs-string">'react-dom'</span>;
-import assign from <span class="hljs-string">'object-assign'</span>;
-import autobind from <span class="hljs-string">'autobind-decorator'</span>;
 
-@createContainer({
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">user</span><span class="hljs-params">(state = {}, action)</span> </span>{
+  <span class="hljs-keyword">switch</span> (action.type) {
+  <span class="hljs-keyword">case</span> <span class="hljs-string">'update_user'</span>:
+    <span class="hljs-keyword">return</span> action.payload;
+  }
+  <span class="hljs-keyword">return</span> state;
+}
+
+<span class="hljs-keyword">const</span> rootReducer = combineReducers({
+  user
+});
+
+<span class="hljs-keyword">const</span> store = createStore(rootReducer, {
+  user: {
+    name: <span class="hljs-string">'initial'</span>
+  }
+});
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">mapDispatch</span><span class="hljs-params">(store)</span> </span>{
+  <span class="hljs-keyword">return</span> {dispatch: store.dispatch};
+}
+
+<span class="hljs-keyword">const</span> MyCreateContainer = <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(selector, option = {})</span> </span>{
+  option.mapStoreProps = mapDispatch;
+  <span class="hljs-keyword">return</span> createContainer(selector, option);
+};
+
+
+@MyCreateContainer({
   <span class="hljs-comment">// specify data need to be concerned</span>
   myUser: <span class="hljs-string">'user'</span>
 })
@@ -280,9 +309,10 @@ import autobind from <span class="hljs-string">'autobind-decorator'</span>;
   onClick(e) {
     e.preventDefault();
     <span class="hljs-comment">// trigger re render</span>
-    <span class="hljs-keyword">this</span>.props.setStoreState({
-      <span class="hljs-comment">// better use immutable.js</span>
-      user: {
+    <span class="hljs-keyword">this</span>.props.dispatch({
+      <span class="hljs-comment">// or use immutable.js</span>
+      type: <span class="hljs-string">'update_user'</span>,
+      payload: {
         name: <span class="hljs-string">'updated: '</span> + <span class="hljs-built_in">Date</span>.now()
       }
     });
@@ -294,12 +324,7 @@ import autobind from <span class="hljs-string">'autobind-decorator'</span>;
 }
 
 
-@createRootContainer({
-  // initial app data
-  user: {
-    name: 'initial'
-  }
-})
+@createRootContainer(store)
 class App extends React.Component {
   render() {
     return <span class="hljs-tag">&lt;<span class="hljs-title">User</span>/&gt;</span>;</span>
