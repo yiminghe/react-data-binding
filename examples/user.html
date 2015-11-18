@@ -2,7 +2,7 @@
 <html>
 
 <head>
-  <title>user.js - example - react-data-binding@0.1.2</title>
+  <title>user.js - example - react-data-binding@0.2.0</title>
   <meta name="viewport"
         content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
   <meta charset="utf-8"/>
@@ -257,7 +257,7 @@ Monokai Sublime style. Derived from Monokai by noformnocontent http://nn.mit-lic
 <body>
 <div class="container">
   <div class="header">
-    <h1>react-data-binding@0.1.2</h1>
+    <h1>react-data-binding@0.2.0</h1>
 
     <p>do react data binding easily</p>
   </div>
@@ -273,7 +273,7 @@ import assign from <span class="hljs-string">'object-assign'</span>;
   onClick(e) {
     e.preventDefault();
     <span class="hljs-comment">// trigger re render</span>
-    <span class="hljs-keyword">this</span>.props.updateStore({
+    <span class="hljs-keyword">this</span>.props.setStoreState({
       <span class="hljs-comment">// or use immutable.js</span>
       user: assign({}, <span class="hljs-keyword">this</span>.props.myUser, {
         name: <span class="hljs-string">'updated: '</span> + <span class="hljs-built_in">Date</span>.now()

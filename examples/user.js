@@ -19,11 +19,11 @@ webpackJsonp([0,1],[
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _reactDom = __webpack_require__(174);
+	var _reactDom = __webpack_require__(173);
 	
 	var _reactDom2 = _interopRequireDefault(_reactDom);
 	
-	var _objectAssign = __webpack_require__(173);
+	var _objectAssign = __webpack_require__(172);
 	
 	var _objectAssign2 = _interopRequireDefault(_objectAssign);
 	
@@ -33,7 +33,7 @@ webpackJsonp([0,1],[
 	  onClick: function onClick(e) {
 	    e.preventDefault();
 	    // trigger re render
-	    this.props.updateStore({
+	    this.props.setStoreState({
 	      // or use immutable.js
 	      user: (0, _objectAssign2['default'])({}, this.props.myUser, {
 	        name: 'updated: ' + Date.now()
@@ -118,6 +118,15 @@ webpackJsonp([0,1],[
 	    return _createRootContainer.createRootContainer;
 	  }
 	});
+	
+	var _Store = __webpack_require__(171);
+	
+	Object.defineProperty(exports, 'Store', {
+	  enumerable: true,
+	  get: function get() {
+	    return _Store.Store;
+	  }
+	});
 
 /***/ },
 /* 4 */
@@ -169,10 +178,19 @@ webpackJsonp([0,1],[
 	  };
 	}
 	
+	function defaultMapStoreProps(store) {
+	  return {
+	    getStoreState: store.getState,
+	    setStoreState: store.setState
+	  };
+	}
+	
 	function createContainer(selector_) {
 	  var option = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
 	  var _option$pure = option.pure;
 	  var pure = _option$pure === undefined ? true : _option$pure;
+	  var _option$mapStoreProps = option.mapStoreProps;
+	  var mapStoreProps = _option$mapStoreProps === undefined ? defaultMapStoreProps : _option$mapStoreProps;
 	
 	  var selector = selector_;
 	
@@ -197,7 +215,6 @@ webpackJsonp([0,1],[
 	
 	        _get(Object.getPrototypeOf(Container.prototype), 'constructor', this).call(this, props, context);
 	        this.onChange = this.onChange.bind(this);
-	        this.updateStore = this.updateStore.bind(this);
 	        this.state = {
 	          appState: this.getAppState() || {}
 	        };
@@ -268,19 +285,13 @@ webpackJsonp([0,1],[
 	          return shouldUpdateStateProps ? selector(state, props) : selector(state);
 	        }
 	      }, {
-	        key: 'updateStore',
-	        value: function updateStore(state) {
-	          this.context.store.setState(state);
-	        }
-	      }, {
 	        key: 'render',
 	        value: function render() {
 	          var appState = this.state.appState;
 	
-	          return _react2['default'].createElement(WrappedComponent, _extends({}, appState, {
-	            store: this.context.store.getState(),
-	            updateStore: this.updateStore
-	          }, this.props, { ref: 'wrappedInstance' }));
+	          var store = this.context.store;
+	          return _react2['default'].createElement(WrappedComponent, _extends({}, appState, mapStoreProps(store), this.props, {
+	            ref: 'wrappedInstance' }));
 	        }
 	      }]);
 	
@@ -20805,45 +20816,51 @@ webpackJsonp([0,1],[
 	
 	function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 	
-	var _RootContainer = __webpack_require__(171);
-	
-	var _Store = __webpack_require__(172);
+	var _Store = __webpack_require__(171);
 	
 	var _react = __webpack_require__(10);
 	
 	var _react2 = _interopRequireDefault(_react);
 	
+	var _constants = __webpack_require__(167);
+	
 	function createRootContainerWrapper(WrappedComponent, store) {
-	  var RootContainerWrapper = (function (_React$Component) {
-	    _inherits(RootContainerWrapper, _React$Component);
+	  var RootContainer = (function (_Component) {
+	    _inherits(RootContainer, _Component);
 	
-	    function RootContainerWrapper() {
-	      _classCallCheck(this, RootContainerWrapper);
+	    function RootContainer() {
+	      _classCallCheck(this, RootContainer);
 	
-	      _get(Object.getPrototypeOf(RootContainerWrapper.prototype), 'constructor', this).apply(this, arguments);
+	      _get(Object.getPrototypeOf(RootContainer.prototype), 'constructor', this).apply(this, arguments);
 	    }
 	
-	    _createClass(RootContainerWrapper, [{
+	    _createClass(RootContainer, [{
+	      key: 'getChildContext',
+	      value: function getChildContext() {
+	        return {
+	          store: store
+	        };
+	      }
+	    }, {
 	      key: 'render',
 	      value: function render() {
-	        return _react2['default'].createElement(
-	          _RootContainer.RootContainer,
-	          { store: store },
-	          _react2['default'].createElement(WrappedComponent, this.props)
-	        );
+	        return _react2['default'].createElement(WrappedComponent, this.props);
 	      }
 	    }]);
 	
-	    return RootContainerWrapper;
-	  })(_react2['default'].Component);
+	    return RootContainer;
+	  })(_react.Component);
 	
-	  return RootContainerWrapper;
+	  RootContainer.childContextTypes = {
+	    store: _constants.storeShape
+	  };
+	  return RootContainer;
 	}
 	
 	function createRootContainer() {
 	  var initialStore = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
 	
-	  var store = new _Store.Store(initialStore);
+	  var store = initialStore instanceof _Store.Store ? initialStore : new _Store.Store(initialStore);
 	  return function (WrappedComponent) {
 	    return createRootContainerWrapper(WrappedComponent, store);
 	  };
@@ -20861,74 +20878,15 @@ webpackJsonp([0,1],[
 	
 	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
 	
-	var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; desc = parent = undefined; continue _function; } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
-	
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
-	
-	function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-	
-	var _react = __webpack_require__(10);
-	
-	var _constants = __webpack_require__(167);
-	
-	var RootContainer = (function (_Component) {
-	  _inherits(RootContainer, _Component);
-	
-	  function RootContainer() {
-	    _classCallCheck(this, RootContainer);
-	
-	    _get(Object.getPrototypeOf(RootContainer.prototype), 'constructor', this).apply(this, arguments);
-	  }
-	
-	  _createClass(RootContainer, [{
-	    key: 'getChildContext',
-	    value: function getChildContext() {
-	      return { store: this.props.store };
-	    }
-	  }, {
-	    key: 'render',
-	    value: function render() {
-	      var children = this.props.children;
-	
-	      return _react.Children.only(children);
-	    }
-	  }]);
-	
-	  return RootContainer;
-	})(_react.Component);
-	
-	exports.RootContainer = RootContainer;
-	
-	RootContainer.propTypes = {
-	  store: _constants.storeShape,
-	  children: _react.PropTypes.element.isRequired
-	};
-	
-	RootContainer.childContextTypes = {
-	  store: _constants.storeShape
-	};
-
-/***/ },
-/* 172 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, '__esModule', {
-	  value: true
-	});
-	
-	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 	
-	var _objectAssign = __webpack_require__(173);
+	var _objectAssign = __webpack_require__(172);
 	
 	var _objectAssign2 = _interopRequireDefault(_objectAssign);
 	
-	var _reactDom = __webpack_require__(174);
+	var _reactDom = __webpack_require__(173);
 	
 	var _reactDom2 = _interopRequireDefault(_reactDom);
 	
@@ -20939,6 +20897,8 @@ webpackJsonp([0,1],[
 	    this.state = initialData;
 	    this.listeners = [];
 	    this.fireChange = this.fireChange.bind(this);
+	    this.getState = this.getState.bind(this);
+	    this.setState = this.setState.bind(this);
 	  }
 	
 	  _createClass(Store, [{
@@ -20985,7 +20945,7 @@ webpackJsonp([0,1],[
 	exports.Store = Store;
 
 /***/ },
-/* 173 */
+/* 172 */
 /***/ function(module, exports) {
 
 	/* eslint-disable no-unused-vars */
@@ -21030,7 +20990,7 @@ webpackJsonp([0,1],[
 
 
 /***/ },
-/* 174 */
+/* 173 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';

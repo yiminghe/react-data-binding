@@ -7,7 +7,7 @@
   <meta charset="utf-8"/>
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link href="//cdnjs.cloudflare.com/ajax/libs/normalize/3.0.3/normalize.css" rel="stylesheet"/>
-  <title>react-data-binding@0.1.2 - do react data binding easily</title>
+  <title>react-data-binding@0.2.0 - do react data binding easily</title>
   <style>
     @font-face {
       font-family: octicons-anchor;
@@ -737,7 +737,7 @@
 
 <body>
 <div class="header">
-  <h1>react-data-binding@0.1.2</h1>
+  <h1>react-data-binding@0.2.0</h1>
 </div>
 <div class="examples">
   <h3>EXAMPLES</h3>
@@ -770,7 +770,7 @@ import assign from <span class="hljs-string">'object-assign'</span>;
   onClick(e) {
     e.preventDefault();
     <span class="hljs-comment">// trigger re render</span>
-    <span class="hljs-keyword">this</span>.props.updateStore({
+    <span class="hljs-keyword">this</span>.props.setStoreState({
       <span class="hljs-comment">// or use immutable.js</span>
       user: assign({}, <span class="hljs-keyword">this</span>.props.myUser, {
         name: <span class="hljs-string">'updated: '</span> + <span class="hljs-built_in">Date</span>.now()
@@ -813,10 +813,13 @@ App = createRootContainer({
   class App extends React.Component {}
 */</span>
 
-ReactDOM.render(<span class="xml"><span class="hljs-tag">&lt;<span class="hljs-title">App</span> /&gt;</span>, document.getElementById('__react-content'));</span></code></pre></div><h2>api<a id="user-content-api" name="api" class="anchor" aria-hidden="true" href="#api"><span class="octicon octicon-link"></span></a></h2><h3>createRootContainer(initialAppData: Object): (Function(WrappedComponent:ReactComponent):ReactComponent)<a id="user-content-createrootcontainer(initialappdata:-object):-(function(wrappedcomponent:reactcomponent):reactcomponent)" name="createrootcontainer(initialappdata:-object):-(function(wrappedcomponent:reactcomponent):reactcomponent)" class="anchor" aria-hidden="true" href="#createrootcontainer(initialappdata:-object):-(function(wrappedcomponent:reactcomponent):reactcomponent)"><span class="octicon octicon-link"></span></a></h3><p>bind the initial global appData to react root component and generate a high order React Component.</p>
-<h3>createContainer(selector: Object|Function): (Function(WrappedComponent:ReactComponent):ReactComponent)<a id="user-content-createcontainer(selector:-object|function):-(function(wrappedcomponent:reactcomponent):reactcomponent)" name="createcontainer(selector:-object|function):-(function(wrappedcomponent:reactcomponent):reactcomponent)" class="anchor" aria-hidden="true" href="#createcontainer(selector:-object|function):-(function(wrappedcomponent:reactcomponent):reactcomponent)"><span class="octicon octicon-link"></span></a></h3><p>bind the subset of appData to react child component and generate a high order React Component.</p>
-<p>WrappedComponent will receive the specified subset of appData and a updateStore function as prop</p>
-<h4>updateStore(state: Object)<a id="user-content-updatestore(state:-object)" name="updatestore(state:-object)" class="anchor" aria-hidden="true" href="#updatestore(state:-object)"><span class="octicon octicon-link"></span></a></h4><p>update the global appData and re render react child components which bind to the specified subset of appData</p>
+ReactDOM.render(<span class="xml"><span class="hljs-tag">&lt;<span class="hljs-title">App</span> /&gt;</span>, document.getElementById('__react-content'));</span></code></pre></div><h2>api<a id="user-content-api" name="api" class="anchor" aria-hidden="true" href="#api"><span class="octicon octicon-link"></span></a></h2><h3>Store<a id="user-content-store" name="store" class="anchor" aria-hidden="true" href="#store"><span class="octicon octicon-link"></span></a></h3><p>build in Store class, you can extend it to create your own store(such as redux store with reducer/dispatch).</p>
+<h3>createRootContainer(initialAppData: Object|Store): (Function(WrappedComponent:ReactComponent):ReactComponent)<a id="user-content-createrootcontainer(initialappdata:-object|store):-(function(wrappedcomponent:reactcomponent):reactcomponent)" name="createrootcontainer(initialappdata:-object|store):-(function(wrappedcomponent:reactcomponent):reactcomponent)" class="anchor" aria-hidden="true" href="#createrootcontainer(initialappdata:-object|store):-(function(wrappedcomponent:reactcomponent):reactcomponent)"><span class="octicon octicon-link"></span></a></h3><p>bind the initial global store state to react root component and generate a high order React Component.</p>
+<h3>createContainer(selector: Object|Function, option: {pure=true, mapStoreProps:Function():Object}): (Function(WrappedComponent:ReactComponent):ReactComponent)<a id="user-content-createcontainer(selector:-object|function,-option:-{pure=true,-mapstoreprops:function():object}):-(function(wrappedcomponent:reactcomponent):reactcomponent)" name="createcontainer(selector:-object|function,-option:-{pure=true,-mapstoreprops:function():object}):-(function(wrappedcomponent:reactcomponent):reactcomponent)" class="anchor" aria-hidden="true" href="#createcontainer(selector:-object|function,-option:-{pure=true,-mapstoreprops:function():object}):-(function(wrappedcomponent:reactcomponent):reactcomponent)"><span class="octicon octicon-link"></span></a></h3><p>bind the subset of store state to react child component and generate a high order React Component.</p>
+<p>WrappedComponent will receive the specified subset of store state and return value of option.mapStoreProps(store) as props.</p>
+<p>default mapStoreProps will generate the following props:</p>
+<h4>setStoreState(state: Object)<a id="user-content-setstorestate(state:-object)" name="setstorestate(state:-object)" class="anchor" aria-hidden="true" href="#setstorestate(state:-object)"><span class="octicon octicon-link"></span></a></h4><p>update the global store state and re render react child components which bind to the specified subset of store state.</p>
+<h4>getStoreState()<a id="user-content-getstorestate()" name="getstorestate()" class="anchor" aria-hidden="true" href="#getstorestate()"><span class="octicon octicon-link"></span></a></h4><p>get the global store state. use with caution.</p>
 <h2>Test Case<a id="user-content-test-case" name="test-case" class="anchor" aria-hidden="true" href="#test-case"><span class="octicon octicon-link"></span></a></h2><p><a href="http://localhost:8111/tests/runner.html?coverage" title="null">http://localhost:8111/tests/runner.html?coverage</a></p>
 <h2>Coverage<a id="user-content-coverage" name="coverage" class="anchor" aria-hidden="true" href="#coverage"><span class="octicon octicon-link"></span></a></h2><p><a href="http://localhost:8111/node_modules/rc-server/node_modules/node-jscover/lib/front-end/jscoverage.html?w=http://localhost:8001/tests/runner.html?coverage" title="null">http://localhost:8111/node_modules/rc-server/node_modules/node-jscover/lib/front-end/jscoverage.html?w=http://localhost:8001/tests/runner.html?coverage</a></p>
 <h2>License<a id="user-content-license" name="license" class="anchor" aria-hidden="true" href="#license"><span class="octicon octicon-link"></span></a></h2><p>react-data-binding is released under the MIT license.</p>
