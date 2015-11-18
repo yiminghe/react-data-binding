@@ -1,6 +1,6 @@
 import { createStore, combineReducers } from 'redux';
 import assign from 'object-assign';
-import {createContainer, createRootContainer} from 'react-data-binding';
+import {createContainer, createRootContainer as rootContainer} from 'react-data-binding';
 import autobind from 'autobind-decorator';
 import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
@@ -27,13 +27,13 @@ function mapDispatch(store) {
   return {dispatch: store.dispatch};
 }
 
-const MyCreateContainer = function (selector, option = {}) {
+const container = function (selector, option = {}) {
   option.mapStoreProps = mapDispatch;
   return createContainer(selector, option);
 };
 
 
-@MyCreateContainer({
+@container({
   // specify data need to be concerned
   myUser: 'user'
 })
@@ -58,7 +58,7 @@ class User extends Component {
 }
 
 
-@createRootContainer(store)
+@rootContainer(store)
 class App extends React.Component {
   render() {
     return <User/>;

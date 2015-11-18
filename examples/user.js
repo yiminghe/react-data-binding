@@ -1,10 +1,10 @@
-import {createContainer, createRootContainer} from 'react-data-binding';
+import {createContainer as container, createRootContainer as rootContainer} from 'react-data-binding';
 import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
 import assign from 'object-assign';
 import autobind from 'autobind-decorator';
 
-@createContainer({
+@container({
   // specify data need to be concerned
   myUser: 'user'
 })
@@ -28,7 +28,7 @@ class User extends Component {
 }
 
 
-@createRootContainer({
+@rootContainer({
   // initial app data
   user: {
     name: 'initial'
