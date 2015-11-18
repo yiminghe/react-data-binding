@@ -1,20 +1,28 @@
-import { RootContainer } from './RootContainer';
 import { Store } from './Store';
-import React from 'react';
+import React, { Component } from 'react';
+import { storeShape } from './constants';
 
 function createRootContainerWrapper(WrappedComponent, store) {
-  class RootContainerWrapper extends React.Component {
+  class RootContainer extends Component {
+    getChildContext() {
+      return {
+        store,
+      };
+    }
+
     render() {
-      return (<RootContainer store={store}>
-        <WrappedComponent {...this.props}/>
-      </RootContainer>);
+      return <WrappedComponent {...this.props}/>;
     }
   }
-  return RootContainerWrapper;
+
+  RootContainer.childContextTypes = {
+    store: storeShape,
+  };
+  return RootContainer;
 }
 
 export function createRootContainer(initialStore = {}) {
-  const store = new Store(initialStore);
+  const store = initialStore instanceof Store ? initialStore : new Store(initialStore);
   return (WrappedComponent) => {
     return createRootContainerWrapper(WrappedComponent, store);
   };

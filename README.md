@@ -38,7 +38,7 @@ let User = React.createClass({
   onClick(e) {
     e.preventDefault();
     // trigger re render
-    this.props.updateStore({
+    this.props.setStoreState({
       // or use immutable.js
       user: assign({}, this.props.myUser, {
         name: 'updated: ' + Date.now()
@@ -86,19 +86,29 @@ ReactDOM.render(<App />, document.getElementById('__react-content'));
 
 ## api
 
-### createRootContainer(initialAppData: Object): (Function(WrappedComponent:ReactComponent):ReactComponent)
+### Store
 
-bind the initial global appData to react root component and generate a high order React Component.
+build in Store class, you can extend it to create your own store(such as redux store with reducer/dispatch).
 
-### createContainer(selector: Object|Function): (Function(WrappedComponent:ReactComponent):ReactComponent)
+### createRootContainer(initialAppData: Object|Store): (Function(WrappedComponent:ReactComponent):ReactComponent)
 
-bind the subset of appData to react child component and generate a high order React Component.
+bind the initial global store state to react root component and generate a high order React Component.
 
-WrappedComponent will receive the specified subset of appData and a updateStore function as prop
+### createContainer(selector: Object|Function, option: {pure=true, mapStoreProps:Function():Object}): (Function(WrappedComponent:ReactComponent):ReactComponent)
 
-#### updateStore(state: Object)
+bind the subset of store state to react child component and generate a high order React Component.
 
-update the global appData and re render react child components which bind to the specified subset of appData
+WrappedComponent will receive the specified subset of store state and return value of option.mapStoreProps(store) as props.
+
+default mapStoreProps will generate the following props:
+
+#### setStoreState(state: Object)
+
+update the global store state and re render react child components which bind to the specified subset of store state.
+
+#### getStoreState()
+
+get the global store state. use with caution.
 
 ## Test Case
 

@@ -12,8 +12,15 @@ function createSelectGetter(s) {
   return state => state[s];
 }
 
+function defaultMapStoreProps(store) {
+  return {
+    getStoreState: store.getState,
+    setStoreState: store.setState,
+  };
+}
+
 export function createContainer(selector_, option = {}) {
-  const {pure = true} = option;
+  const {pure = true, mapStoreProps = defaultMapStoreProps} = option;
   let selector = selector_;
 
   if (typeof selector === 'object') {
@@ -33,7 +40,6 @@ export function createContainer(selector_, option = {}) {
       constructor(props, context) {
         super(props, context);
         this.onChange = this.onChange.bind(this);
-        this.updateStore = this.updateStore.bind(this);
         this.state = {
           appState: this.getAppState() || {},
         };
@@ -97,17 +103,14 @@ export function createContainer(selector_, option = {}) {
           selector(state);
       }
 
-      updateStore(state) {
-        this.context.store.setState(state);
-      }
-
       render() {
         const {appState} = this.state;
+        const store = this.context.store;
         return (
           <WrappedComponent {...appState}
-            store={this.context.store.getState()}
-            updateStore={this.updateStore}
-            {...this.props} ref="wrappedInstance"/>
+            {...mapStoreProps(store)}
+            {...this.props}
+            ref="wrappedInstance"/>
         );
       }
     }

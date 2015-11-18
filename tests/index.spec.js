@@ -25,7 +25,7 @@ describe('react-data-binding', function () {
       onClick(e) {
         e.preventDefault();
         // trigger re render
-        this.props.updateStore({
+        this.props.setStoreState({
           // or use immutable.js
           user: assign({}, this.props.myUser, {
             name: 'updated:' + (++index)
@@ -40,6 +40,73 @@ describe('react-data-binding', function () {
     User = createContainer({
       // specify data need to be concerned
       myUser: 'user'
+    })(User);
+
+
+    let App = React.createClass({
+      render() {
+        return <User />;
+      }
+    });
+
+    App = createRootContainer({
+      // initial app data
+      user: {
+        name: 'initial'
+      }
+    })(App);
+
+    var app = ReactDOM.render(<App />, div);
+
+    var a = TestUtils.scryRenderedDOMComponentsWithTag(app, 'a')[0];
+
+    expect(a.innerHTML).to.be('initial');
+
+    Simulate.click(a);
+
+    expect(a.innerHTML).to.be('updated:1');
+
+    Simulate.click(a);
+
+    expect(a.innerHTML).to.be('updated:2');
+  });
+
+  it('can add props to container child', function () {
+    var index = 0;
+
+    let User = React.createClass({
+      onClick(e) {
+        e.preventDefault();
+        // trigger re render
+        this.props.dispatch({
+          type: 'update_user',
+          // or use immutable.js
+          payload: assign({}, this.props.myUser, {
+            name: 'updated:' + (++index)
+          })
+        });
+      },
+      render() {
+        return (<a href="#" onClick={this.onClick}>{this.props.myUser.name}</a>);
+      }
+    });
+
+    User = createContainer({
+      // specify data need to be concerned
+      myUser: 'user'
+    }, {
+      mapStoreProps(store){
+        return {
+          dispatch: function (action) {
+            if (action.type === 'update_user') {
+              // call store
+              store.setState({
+                user: action.payload,
+              });
+            }
+          }
+        };
+      }
     })(User);
 
 

@@ -6,6 +6,8 @@ export class Store {
     this.state = initialData;
     this.listeners = [];
     this.fireChange = this.fireChange.bind(this);
+    this.getState = this.getState.bind(this);
+    this.setState = this.setState.bind(this);
   }
 
   setState(state) {

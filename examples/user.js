@@ -7,7 +7,7 @@ let User = React.createClass({
   onClick(e) {
     e.preventDefault();
     // trigger re render
-    this.props.updateStore({
+    this.props.setStoreState({
       // or use immutable.js
       user: assign({}, this.props.myUser, {
         name: 'updated: ' + Date.now()
