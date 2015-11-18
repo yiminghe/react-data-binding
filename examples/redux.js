@@ -67,7 +67,7 @@ webpackJsonp([0],[
 	  return { dispatch: store.dispatch };
 	}
 	
-	var MyCreateContainer = function MyCreateContainer(selector) {
+	var container = function container(selector) {
 	  var option = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
 	
 	  option.mapStoreProps = mapDispatch;
@@ -109,7 +109,7 @@ webpackJsonp([0],[
 	  }]);
 	
 	  var _User = User;
-	  User = MyCreateContainer({
+	  User = container({
 	    // specify data need to be concerned
 	    myUser: 'user'
 	  })(User) || User;

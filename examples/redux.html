@@ -266,7 +266,7 @@ Monokai Sublime style. Derived from Monokai by noformnocontent http://nn.mit-lic
   <script src="redux.js?nowrap"></script>
   <div class="highlight"><pre><code language="js">import { createStore, combineReducers } from <span class="hljs-string">'redux'</span>;
 import assign from <span class="hljs-string">'object-assign'</span>;
-import {createContainer, createRootContainer} from <span class="hljs-string">'react-data-binding'</span>;
+import {createContainer, createRootContainer as rootContainer} from <span class="hljs-string">'react-data-binding'</span>;
 import autobind from <span class="hljs-string">'autobind-decorator'</span>;
 import React, {Component} from <span class="hljs-string">'react'</span>;
 import ReactDOM from <span class="hljs-string">'react-dom'</span>;
@@ -293,13 +293,13 @@ import ReactDOM from <span class="hljs-string">'react-dom'</span>;
   <span class="hljs-keyword">return</span> {dispatch: store.dispatch};
 }
 
-<span class="hljs-keyword">const</span> MyCreateContainer = <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(selector, option = {})</span> </span>{
+<span class="hljs-keyword">const</span> container = <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(selector, option = {})</span> </span>{
   option.mapStoreProps = mapDispatch;
   <span class="hljs-keyword">return</span> createContainer(selector, option);
 };
 
 
-@MyCreateContainer({
+@container({
   <span class="hljs-comment">// specify data need to be concerned</span>
   myUser: <span class="hljs-string">'user'</span>
 })
@@ -324,7 +324,7 @@ import ReactDOM from <span class="hljs-string">'react-dom'</span>;
 }
 
 
-@createRootContainer(store)
+@rootContainer(store)
 class App extends React.Component {
   render() {
     return <span class="hljs-tag">&lt;<span class="hljs-title">User</span>/&gt;</span>;</span>

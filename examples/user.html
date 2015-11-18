@@ -264,13 +264,13 @@ Monokai Sublime style. Derived from Monokai by noformnocontent http://nn.mit-lic
   <div class="example" id="__react-content"></div>
   <script src="common.js?nowrap"></script>
   <script src="user.js?nowrap"></script>
-  <div class="highlight"><pre><code language="js">import {createContainer, createRootContainer} from <span class="hljs-string">'react-data-binding'</span>;
+  <div class="highlight"><pre><code language="js">import {createContainer as container, createRootContainer as rootContainer} from <span class="hljs-string">'react-data-binding'</span>;
 import React, {Component} from <span class="hljs-string">'react'</span>;
 import ReactDOM from <span class="hljs-string">'react-dom'</span>;
 import assign from <span class="hljs-string">'object-assign'</span>;
 import autobind from <span class="hljs-string">'autobind-decorator'</span>;
 
-@createContainer({
+@container({
   <span class="hljs-comment">// specify data need to be concerned</span>
   myUser: <span class="hljs-string">'user'</span>
 })
@@ -294,7 +294,7 @@ import autobind from <span class="hljs-string">'autobind-decorator'</span>;
 }
 
 
-@createRootContainer({
+@rootContainer({
   // initial app data
   user: {
     name: 'initial'
