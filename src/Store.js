@@ -21,7 +21,7 @@ export class Store {
     this.listeners.slice().forEach(listener => listener());
   }
 
-  onChange(listener) {
+  subscribe(listener) {
     const listeners = this.listeners;
     listeners.push(listener);
     let isSubscribed = true;

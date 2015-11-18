@@ -1,52 +1,43 @@
 import {createContainer, createRootContainer} from 'react-data-binding';
-import React from 'react';
+import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
 import assign from 'object-assign';
+import autobind from 'autobind-decorator';
 
-let User = React.createClass({
+@createContainer({
+  // specify data need to be concerned
+  myUser: 'user'
+})
+class User extends Component {
+
+  @autobind
   onClick(e) {
     e.preventDefault();
     // trigger re render
     this.props.setStoreState({
-      // or use immutable.js
-      user: assign({}, this.props.myUser, {
+      // better use immutable.js
+      user: {
         name: 'updated: ' + Date.now()
-      })
+      }
     });
-  },
+  }
+
   render() {
     return (<a href="#" onClick={this.onClick}>{this.props.myUser.name}</a>);
   }
-});
+}
 
-User = createContainer({
-  // specify data need to be concerned
-  myUser: 'user'
-})(User);
 
-let App = React.createClass({
-  render() {
-    return <User />;
-  }
-});
-
-App = createRootContainer({
+@createRootContainer({
   // initial app data
   user: {
     name: 'initial'
   }
-})(App);
-
-/*
- or use decorators
-
- @createRootContainer({
-   // initial app data
-   user: {
-    name: 'initial'
-   }
- })
- class App extends React.Component {}
- */
+})
+class App extends React.Component {
+  render() {
+    return <User/>;
+  }
+}
 
 ReactDOM.render(<App />, document.getElementById('__react-content'));

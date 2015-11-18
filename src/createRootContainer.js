@@ -22,7 +22,7 @@ function createRootContainerWrapper(WrappedComponent, store) {
 }
 
 export function createRootContainer(initialStore = {}) {
-  const store = initialStore instanceof Store ? initialStore : new Store(initialStore);
+  const store = typeof initialStore.getState === 'function' ? initialStore : new Store(initialStore);
   return (WrappedComponent) => {
     return createRootContainerWrapper(WrappedComponent, store);
   };

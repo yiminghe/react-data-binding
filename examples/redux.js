@@ -1,0 +1,68 @@
+import { createStore, combineReducers } from 'redux';
+import assign from 'object-assign';
+import {createContainer, createRootContainer} from 'react-data-binding';
+import autobind from 'autobind-decorator';
+import React, {Component} from 'react';
+import ReactDOM from 'react-dom';
+
+function user(state = {}, action) {
+  switch (action.type) {
+  case 'update_user':
+    return action.payload;
+  }
+  return state;
+}
+
+const rootReducer = combineReducers({
+  user
+});
+
+const store = createStore(rootReducer, {
+  user: {
+    name: 'initial'
+  }
+});
+
+function mapDispatch(store) {
+  return {dispatch: store.dispatch};
+}
+
+const MyCreateContainer = function (selector, option = {}) {
+  option.mapStoreProps = mapDispatch;
+  return createContainer(selector, option);
+};
+
+
+@MyCreateContainer({
+  // specify data need to be concerned
+  myUser: 'user'
+})
+class User extends Component {
+
+  @autobind
+  onClick(e) {
+    e.preventDefault();
+    // trigger re render
+    this.props.dispatch({
+      // or use immutable.js
+      type: 'update_user',
+      payload: {
+        name: 'updated: ' + Date.now()
+      }
+    });
+  }
+
+  render() {
+    return (<a href="#" onClick={this.onClick}>{this.props.myUser.name}</a>);
+  }
+}
+
+
+@createRootContainer(store)
+class App extends React.Component {
+  render() {
+    return <User/>;
+  }
+}
+
+ReactDOM.render(<App />, document.getElementById('__react-content'));

@@ -47,7 +47,7 @@ export function createContainer(selector_, option = {}) {
 
       componentDidMount() {
         if (!this.unsubscribe) {
-          this.unsubscribe = this.context.store.onChange(this.onChange);
+          this.unsubscribe = this.context.store.subscribe(this.onChange);
         }
       }
 

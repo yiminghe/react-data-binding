@@ -28,58 +28,44 @@ do react data binding in an easy way. inspired by redux.
 
 http://yiminghe.github.io/react-data-binding
 
-```js
-import {createContainer, createRootContainer} from 'react-data-binding';
-import React from 'react';
-import ReactDOM from 'react-dom';
-import assign from 'object-assign';
+work with redux: http://yiminghe.github.io/react-data-binding/examples/redux.html
 
-let User = React.createClass({
+```js
+@createContainer({
+  // specify data need to be concerned
+  myUser: 'user'
+})
+class User extends Component {
+
+  @autobind
   onClick(e) {
     e.preventDefault();
     // trigger re render
     this.props.setStoreState({
-      // or use immutable.js
-      user: assign({}, this.props.myUser, {
+      // better use immutable.js
+      user: {
         name: 'updated: ' + Date.now()
-      })
+      }
     });
-  },
+  }
+
   render() {
     return (<a href="#" onClick={this.onClick}>{this.props.myUser.name}</a>);
   }
-});
-
-User = createContainer({
-  // specify data need to be concerned
-  myUser: 'user'
-})(User);
+}
 
 
-let App = React.createClass({
-  render() {
-    return <User />;
-  }
-});
-
-App = createRootContainer({
+@createRootContainer({
   // initial app data
   user: {
     name: 'initial'
   }
-})(App);
-
-/*
- or use decorators
-
- @createRootContainer({
-    // initial app data
-    user: {
-      name: 'initial'
-    }
-  })
-  class App extends React.Component {}
-*/
+})
+class App extends React.Component {
+  render() {
+    return <User/>;
+  }
+}
 
 ReactDOM.render(<App />, document.getElementById('__react-content'));
 ```
