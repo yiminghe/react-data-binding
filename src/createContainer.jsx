@@ -1,12 +1,8 @@
 import shallowEqual from 'shallowequal';
 import React, {Component} from 'react';
-import { storeShape } from './constants';
 import { createStructuredSelector } from 'reselect';
-import hoistStatics from 'hoist-non-react-statics';
-
-function getDisplayName(WrappedComponent) {
-  return WrappedComponent.displayName || WrappedComponent.name || 'WrappedComponent';
-}
+import { argumentContainer } from './utils';
+import { createEmptyContainer } from './createEmptyContainer';
 
 function createSelectGetter(s) {
   return state => state[s];
@@ -21,6 +17,11 @@ function defaultMapStoreProps(store) {
 
 export function createContainer(selector_, option = {}) {
   const {pure = true, mapStoreProps = defaultMapStoreProps} = option;
+
+  if (!selector_) {
+    return createEmptyContainer(mapStoreProps);
+  }
+
   let selector = selector_;
 
   if (typeof selector === 'object') {
@@ -115,12 +116,6 @@ export function createContainer(selector_, option = {}) {
       }
     }
 
-    Container.displayName = `Container(${getDisplayName(WrappedComponent)})`;
-    Container.WrappedComponent = WrappedComponent;
-    Container.contextTypes = {
-      store: storeShape,
-    };
-
-    return hoistStatics(Container, WrappedComponent);
+    return argumentContainer(Container, WrappedComponent);
   };
 }

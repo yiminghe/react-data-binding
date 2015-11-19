@@ -1,9 +1,12 @@
 import {createContainer, createRootContainer} from 'react-data-binding';
-import React from 'react';
+import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
 import assign from 'object-assign';
+import autobind from 'autobind-decorator';
 import expect from 'expect.js';
 import TestUtils, {Simulate} from 'react-addons-test-utils';
+const container = createContainer;
+const rootContainer = createRootContainer;
 
 describe('react-data-binding', function () {
   var div;
@@ -136,6 +139,96 @@ describe('react-data-binding', function () {
     Simulate.click(a);
 
     expect(a.innerHTML).to.be('updated:2');
+  });
+
+  it('allow empty selector', function () {
+    @container()
+    class User extends Component {
+      render() {
+        return <div className="data">{this.props.getStoreState().user.name}</div>;
+      }
+    }
+
+    @rootContainer({
+      user: {
+        name: 'a'
+      }
+    })
+    class App extends Component {
+      render() {
+        return <User/>
+      }
+    }
+
+    var app = ReactDOM.render(<App />, div);
+
+    expect(TestUtils.scryRenderedDOMComponentsWithClass(app, 'data')[0].innerHTML).to.be('a');
+  });
+
+  it('will avoid redundant render under nested component condition', function () {
+    let userRender = 0;
+    let user2Render = 0;
+    let appRender = 0;
+    @container({
+      user: 'user'
+    })
+    class User extends Component {
+      @autobind
+      change() {
+        this.props.setStoreState({
+          user:{
+            name:'b'
+          }
+        });
+      }
+
+      render() {
+        userRender++;
+        return (<div>
+          <div className="user" onClick={this.change}>{this.props.user.name}</div>
+          <User2 />
+        </div>);
+      }
+    }
+
+    @container({
+      user2: 'user2'
+    })
+    class User2 extends Component {
+      render() {
+        user2Render++;
+        return <div className="user2">{this.props.user2.name}</div>;
+      }
+    }
+
+    @rootContainer({
+      user: {
+        name: 'a'
+      },
+      user2:{
+        name:'c'
+      }
+    })
+    class App extends Component {
+      render() {
+        appRender++;
+        return <User/>
+      }
+    }
+
+    var app = ReactDOM.render(<App />, div);
+    var userDom = TestUtils.scryRenderedDOMComponentsWithClass(app, 'user')[0];
+    var user2Dom = TestUtils.scryRenderedDOMComponentsWithClass(app, 'user2')[0];
+    expect(userDom.innerHTML).to.be('a');
+    expect(user2Dom.innerHTML).to.be('c');
+    expect(userRender).to.be(1);
+    expect(user2Render).to.be(1);
+    expect(appRender).to.be(1);
+    Simulate.click(userDom);
+    expect(userRender).to.be(2);
+    expect(user2Render).to.be(1);
+    expect(appRender).to.be(1);
+    expect(userDom.innerHTML).to.be('b');
   });
 });
 
