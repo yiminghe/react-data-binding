@@ -16,7 +16,7 @@ function defaultMapStoreProps(store) {
 }
 
 export function createContainer(selector_, option = {}) {
-  const {pure = true, mapStoreProps = defaultMapStoreProps} = option;
+  const {pure = true, mapStoreProps = defaultMapStoreProps, ref} = option;
 
   if (!selector_) {
     return createEmptyContainer(mapStoreProps);
@@ -111,7 +111,7 @@ export function createContainer(selector_, option = {}) {
           <WrappedComponent {...appState}
             {...mapStoreProps(store)}
             {...this.props}
-            ref="wrappedInstance"/>
+            ref={ref}/>
         );
       }
     }
