@@ -30,7 +30,7 @@
 /******/ 	// "0" means "already loaded"
 /******/ 	// Array means "loading", array contains callbacks
 /******/ 	var installedChunks = {
-/******/ 		2:0
+/******/ 		3:0
 /******/ 	};
 /******/
 /******/ 	// The require function
@@ -76,7 +76,7 @@
 /******/ 			script.charset = 'utf-8';
 /******/ 			script.async = true;
 /******/
-/******/ 			script.src = __webpack_require__.p + "" + chunkId + "." + ({"0":"redux","1":"user"}[chunkId]||chunkId) + ".js";
+/******/ 			script.src = __webpack_require__.p + "" + chunkId + "." + ({"0":"redux","1":"stateless-user","2":"user"}[chunkId]||chunkId) + ".js";
 /******/ 			head.appendChild(script);
 /******/ 		}
 /******/ 	};
@@ -346,6 +346,7 @@
 	  var pure = _option$pure === undefined ? true : _option$pure;
 	  var _option$mapStoreProps = option.mapStoreProps;
 	  var mapStoreProps = _option$mapStoreProps === undefined ? defaultMapStoreProps : _option$mapStoreProps;
+	  var ref = option.ref;
 	
 	  if (!selector_) {
 	    return (0, _createEmptyContainer.createEmptyContainer)(mapStoreProps);
@@ -450,7 +451,7 @@
 	
 	          var store = this.context.store;
 	          return _react2['default'].createElement(WrappedComponent, _extends({}, appState, mapStoreProps(store), this.props, {
-	            ref: 'wrappedInstance' }));
+	            ref: ref }));
 	        }
 	      }]);
 	
@@ -21096,108 +21097,6 @@
 	'use strict';
 	
 	module.exports = __webpack_require__(23);
-
-
-/***/ },
-/* 185 */
-/***/ function(module, exports) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, '__esModule', {
-	  value: true
-	});
-	/**
-	 * @copyright 2015, Andrey Popp <8mayday@gmail.com>
-	 *
-	 * The decorator may be used on classes or methods
-	 * ```
-	 * @autobind
-	 * class FullBound {}
-	 *
-	 * class PartBound {
-	 *   @autobind
-	 *   method () {}
-	 * }
-	 * ```
-	 */
-	exports['default'] = autobind;
-	
-	function autobind() {
-	  for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
-	    args[_key] = arguments[_key];
-	  }
-	
-	  if (args.length === 1) {
-	    return boundClass.apply(undefined, args);
-	  } else {
-	    return boundMethod.apply(undefined, args);
-	  }
-	}
-	
-	/**
-	 * Use boundMethod to bind all methods on the target.prototype
-	 */
-	function boundClass(target) {
-	  // (Using reflect to get all keys including symbols)
-	  var keys = undefined;
-	  // Use Reflect if exists
-	  if (typeof Reflect !== 'undefined') {
-	    keys = Reflect.ownKeys(target.prototype);
-	  } else {
-	    keys = Object.getOwnPropertyNames(target.prototype);
-	    // use symbols if support is provided
-	    if (typeof Object.getOwnPropertySymbols === 'function') {
-	      keys = keys.concat(Object.getOwnPropertySymbols(target.prototype));
-	    }
-	  }
-	
-	  keys.forEach(function (key) {
-	    // Ignore special case target method
-	    if (key === 'constructor') {
-	      return;
-	    }
-	
-	    var descriptor = Object.getOwnPropertyDescriptor(target.prototype, key);
-	
-	    // Only methods need binding
-	    if (typeof descriptor.value === 'function') {
-	      Object.defineProperty(target.prototype, key, boundMethod(target, key, descriptor));
-	    }
-	  });
-	  return target;
-	}
-	
-	/**
-	 * Return a descriptor removing the value and returning a getter
-	 * The getter will return a .bind version of the function
-	 * and memoize the result against a symbol on the instance
-	 */
-	function boundMethod(target, key, descriptor) {
-	  var fn = descriptor.value;
-	
-	  if (typeof fn !== 'function') {
-	    throw new Error('@autobind decorator can only be applied to methods not: ' + typeof fn);
-	  }
-	
-	  return {
-	    configurable: true,
-	    get: function get() {
-	      if (this === target.prototype) {
-	        return fn;
-	      }
-	
-	      var boundFn = fn.bind(this);
-	      Object.defineProperty(this, key, {
-	        value: boundFn,
-	        configurable: true,
-	        writable: true
-	      });
-	      return boundFn;
-	    }
-	  };
-	}
-	module.exports = exports['default'];
 
 
 /***/ }

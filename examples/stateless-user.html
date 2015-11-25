@@ -2,7 +2,7 @@
 <html>
 
 <head>
-  <title>user.js - example - react-data-binding@0.2.3</title>
+  <title>stateless-user.js - example - react-data-binding@0.2.3</title>
   <meta name="viewport"
         content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
   <meta charset="utf-8"/>
@@ -263,48 +263,41 @@ Monokai Sublime style. Derived from Monokai by noformnocontent http://nn.mit-lic
   </div>
   <div class="example" id="__react-content"></div>
   <script src="common.js?nowrap"></script>
-  <script src="user.js?nowrap"></script>
-  <div class="highlight"><pre><code language="js">import {createContainer as container, createRootContainer as rootContainer} from <span class="hljs-string">'react-data-binding'</span>;
-import React, {Component} from <span class="hljs-string">'react'</span>;
+  <script src="stateless-user.js?nowrap"></script>
+  <div class="highlight"><pre><code language="js">import {createContainer, createRootContainer} from <span class="hljs-string">'react-data-binding'</span>;
+import React from <span class="hljs-string">'react'</span>;
 import ReactDOM from <span class="hljs-string">'react-dom'</span>;
-import assign from <span class="hljs-string">'object-assign'</span>;
-import autobind from <span class="hljs-string">'autobind-decorator'</span>;
 
-@container({
+<span class="hljs-keyword">const</span> User = createContainer({
   <span class="hljs-comment">// specify data need to be concerned</span>
   myUser: <span class="hljs-string">'user'</span>
-})
-<span class="hljs-keyword">class</span> User extends Component {
-
-  @autobind
-  onClick(e) {
-    e.preventDefault();
-    <span class="hljs-comment">// trigger re render</span>
-    <span class="hljs-keyword">this</span>.props.setStoreState({
-      <span class="hljs-comment">// better use immutable.js</span>
-      user: {
-        name: <span class="hljs-string">'updated: '</span> + <span class="hljs-built_in">Date</span>.now()
+}, {
+  mapStoreProps(store) {
+    <span class="hljs-keyword">return</span> {
+      <span class="hljs-comment">// actions</span>
+      changeUser(){
+        store.setState({
+          user: {
+            ... store.getState().user,
+            name: <span class="hljs-string">'updated: '</span> + <span class="hljs-built_in">Date</span>.now()
+          }
+        })
       }
-    });
+    }
   }
+})(({myUser, changeUser}) =&gt; {
+  <span class="hljs-keyword">return</span> (<span class="xml"><span class="hljs-tag">&lt;<span class="hljs-title">a</span> <span class="hljs-attribute">href</span>=<span class="hljs-value">"#"</span> <span class="hljs-attribute">onClick</span>=<span class="hljs-value">{changeUser}</span>&gt;</span>{myUser.name} at {myUser.location}<span class="hljs-tag">&lt;/<span class="hljs-title">a</span>&gt;</span>);
+});
 
-  render() {
-    <span class="hljs-keyword">return</span> (<span class="xml"><span class="hljs-tag">&lt;<span class="hljs-title">a</span> <span class="hljs-attribute">href</span>=<span class="hljs-value">"#"</span> <span class="hljs-attribute">onClick</span>=<span class="hljs-value">{this.onClick}</span>&gt;</span>{this.props.myUser.name}<span class="hljs-tag">&lt;/<span class="hljs-title">a</span>&gt;</span>);
-  }
-}
-
-
-@rootContainer({
+const App = createRootContainer({
   // initial app data
   user: {
-    name: 'initial'
+    name: 'initial',
+    location: 'china'
   }
-})
-class App extends React.Component {
-  render() {
-    return <span class="hljs-tag">&lt;<span class="hljs-title">User</span>/&gt;</span>;</span>
-  }
-}
+})(()=&gt; {
+  return <span class="hljs-tag">&lt;<span class="hljs-title">User</span>/&gt;</span>;</span>
+});
 
 ReactDOM.render(<span class="xml"><span class="hljs-tag">&lt;<span class="hljs-title">App</span> /&gt;</span>, document.getElementById('__react-content'));
 </span></code></pre></div>
