@@ -95,55 +95,10 @@ describe('nested', () => {
     expect(userDom.innerHTML).to.be('b');
   });
 
-  it('allow nested root container', () => {
+  it.only('allow nested root container', () => {
     let index = 0;
     let user1Render = 0;
     let user2Render = 0;
-
-    let User2 = React.createClass({
-      propTypes: {
-        setStoreState: PropTypes.func,
-        myUser: PropTypes.object,
-      },
-
-      onClick(e) {
-        e.preventDefault();
-        // trigger re render
-        this.props.setStoreState({
-          // or use immutable.js
-          user: {
-            ...this.props.myUser,
-            name: 'updated2:' + (++index),
-          },
-        });
-      },
-      render() {
-        user2Render++;
-        return (<a href="#" onClick={this.onClick} className="user2">{this.props.myUser.name}</a>);
-      },
-    });
-
-    User2 = createContainer({
-      // specify data need to be concerned
-      myUser: 'user',
-    }, {
-      storeName: 'store2',
-    })(User2);
-
-    let App2 = React.createClass({
-      render() {
-        return <User2 />;
-      },
-    });
-
-    App2 = createRootContainer({
-      // initial app data
-      user: {
-        name: 'initial2',
-      },
-    }, {
-      storeName: 'store2',
-    })(App2);
 
     let User = React.createClass({
       propTypes: {
@@ -164,21 +119,66 @@ describe('nested', () => {
       },
       render() {
         user1Render++;
-        return (<div>
-          <a href="#" onClick={this.onClick} className="user1">{this.props.myUser.name}</a>
-          <App2 />
-        </div>);
+        return (<a href="#" onClick={this.onClick} className="user1">{this.props.myUser.name}</a>);
       },
     });
 
     User = createContainer({
-      // specify data needed to be concerned
+      // specify data need to be concerned
       myUser: 'user',
     })(User);
 
+    let User2 = React.createClass({
+      propTypes: {
+        setStoreState: PropTypes.func,
+        myUser: PropTypes.object,
+      },
+
+      onClick(e) {
+        e.preventDefault();
+        // trigger re render
+        this.props.setStoreState({
+          // or use immutable.js
+          user: {
+            ...this.props.myUser,
+            name: 'updated2:' + (++index),
+          },
+        });
+      },
+      render() {
+        user2Render++;
+        return (<div>
+          <a href="#" onClick={this.onClick} className="user2">{this.props.myUser.name}</a>
+          <User />
+        </div>);
+      },
+    });
+
+    User2 = createContainer({
+      // specify data needed to be concerned
+      myUser: 'user',
+    }, {
+      storeName: 'store2',
+    })(User2);
+
+    let App2 = React.createClass({
+      render() {
+        return <User2 />;
+      },
+    });
+
+    App2 = createRootContainer({
+      // initial app data
+      user: {
+        name: 'initial2',
+      },
+    }, {
+      storeName: 'store2',
+    })(App2);
+
     let App = React.createClass({
       render() {
-        return <User />;
+        return <App2 />;
       },
     });
 
