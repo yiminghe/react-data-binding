@@ -76,13 +76,17 @@ ReactDOM.render(<App />, document.getElementById('__react-content'));
 
 build in Store class, you can extend it to create your own store(such as redux store with reducer/dispatch).
 
-### createRootContainer(initialAppData: Object|Store): (Function(WrappedComponent:ReactComponent):ReactComponent)
+### createRootContainer(initialAppData: Object|Store, option: {storeName='store'}): (Function(WrappedComponent:ReactComponent):ReactComponent)
 
 bind the initial global store state to react root component and generate a high order React Component.
 
-### createContainer(selector: Object|Function, option: {pure=true, mapStoreProps:Function():Object}): (Function(WrappedComponent:ReactComponent):ReactComponent)
+will save global store to this.context[storeName].
+
+### createContainer(selector: Object|Function, option: {pure=true, mapStoreProps:Function():Object, storeName='store'}): (Function(WrappedComponent:ReactComponent):ReactComponent)
 
 bind the subset of store state to react child component and generate a high order React Component.
+
+will receive this.context[storeName] as global store.
 
 WrappedComponent will receive the specified subset of store state and return value of option.mapStoreProps(store) as props.
 

@@ -4,21 +4,21 @@ import ReactDOM from 'react-dom';
 
 const User = createContainer({
   // specify data need to be concerned
-  myUser: 'user'
+  myUser: 'user',
 }, {
   mapStoreProps(store) {
     return {
       // actions
-      changeUser(){
+      changeUser() {
         store.setState({
           user: {
             ... store.getState().user,
-            name: 'updated: ' + Date.now()
-          }
-        })
-      }
-    }
-  }
+            name: 'updated: ' + Date.now(),
+          },
+        });
+      },
+    };
+  },
 })(({myUser, changeUser}) => {
   return (<a href="#" onClick={changeUser}>{myUser.name} at {myUser.location}</a>);
 });
@@ -27,8 +27,8 @@ const App = createRootContainer({
   // initial app data
   user: {
     name: 'initial',
-    location: 'china'
-  }
+    location: 'china',
+  },
 })(()=> {
   return <User/>;
 });

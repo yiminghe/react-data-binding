@@ -1,4 +1,3 @@
-import assign from 'object-assign';
 import ReactDOM from 'react-dom';
 
 export class Store {
@@ -11,7 +10,10 @@ export class Store {
   }
 
   setState(state) {
-    this.state = assign({}, this.state, state);
+    this.state = {
+      ...this.state,
+      ...state,
+    };
     // TODO debounce ?
     ReactDOM.unstable_batchedUpdates(this.fireChange);
     // this.fireChange();

@@ -16,10 +16,10 @@ function defaultMapStoreProps(store) {
 }
 
 export function createContainer(selector_, option = {}) {
-  const {pure = true, mapStoreProps = defaultMapStoreProps, ref} = option;
+  const {pure = true, mapStoreProps = defaultMapStoreProps, ref, storeName = 'store'} = option;
 
   if (!selector_) {
-    return createEmptyContainer(mapStoreProps);
+    return createEmptyContainer(mapStoreProps, storeName);
   }
 
   let selector = selector_;
@@ -48,7 +48,7 @@ export function createContainer(selector_, option = {}) {
 
       componentDidMount() {
         if (!this.unsubscribe) {
-          this.unsubscribe = this.context.store.subscribe(this.onChange);
+          this.unsubscribe = this.context[storeName].subscribe(this.onChange);
         }
       }
 
@@ -97,7 +97,7 @@ export function createContainer(selector_, option = {}) {
       }
 
       getAppState(props = this.props) {
-        const store = this.context.store;
+        const store = this.context[storeName];
         const state = store.getState();
         return shouldUpdateStateProps ?
           selector(state, props) :
@@ -106,7 +106,7 @@ export function createContainer(selector_, option = {}) {
 
       render() {
         const {appState} = this.state;
-        const store = this.context.store;
+        const store = this.context[storeName];
         return (
           <WrappedComponent {...appState}
             {...mapStoreProps(store)}
@@ -116,6 +116,6 @@ export function createContainer(selector_, option = {}) {
       }
     }
 
-    return argumentContainer(Container, WrappedComponent);
+    return argumentContainer(Container, WrappedComponent, storeName);
   };
 }

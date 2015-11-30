@@ -1,14 +1,17 @@
 import {createContainer as container, createRootContainer as rootContainer} from 'react-data-binding';
-import React, {Component} from 'react';
+import React, {Component, PropTypes} from 'react';
 import ReactDOM from 'react-dom';
-import assign from 'object-assign';
 import autobind from 'autobind-decorator';
 
 @container({
   // specify data need to be concerned
-  myUser: 'user'
+  myUser: 'user',
 })
 class User extends Component {
+  static propTypes = {
+    myUser: PropTypes.object,
+    setStoreState: PropTypes.func,
+  }
 
   @autobind
   onClick(e) {
@@ -17,8 +20,8 @@ class User extends Component {
     this.props.setStoreState({
       // better use immutable.js
       user: {
-        name: 'updated: ' + Date.now()
-      }
+        name: 'updated: ' + Date.now(),
+      },
     });
   }
 
@@ -27,12 +30,11 @@ class User extends Component {
   }
 }
 
-
 @rootContainer({
   // initial app data
   user: {
-    name: 'initial'
-  }
+    name: 'initial',
+  },
 })
 class App extends React.Component {
   render() {
