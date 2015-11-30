@@ -3,12 +3,12 @@ webpackJsonp([2],{
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(187);
+	module.exports = __webpack_require__(186);
 
 
 /***/ },
 
-/***/ 185:
+/***/ 184:
 /***/ function(module, exports) {
 
 	'use strict';
@@ -111,7 +111,7 @@ webpackJsonp([2],{
 
 /***/ },
 
-/***/ 187:
+/***/ 186:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -128,21 +128,17 @@ webpackJsonp([2],{
 	
 	function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 	
-	var _reactDataBinding = __webpack_require__(13);
+	var _reactDataBinding = __webpack_require__(12);
 	
-	var _react = __webpack_require__(21);
+	var _react = __webpack_require__(20);
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _reactDom = __webpack_require__(184);
+	var _reactDom = __webpack_require__(183);
 	
 	var _reactDom2 = _interopRequireDefault(_reactDom);
 	
-	var _objectAssign = __webpack_require__(12);
-	
-	var _objectAssign2 = _interopRequireDefault(_objectAssign);
-	
-	var _autobindDecorator = __webpack_require__(185);
+	var _autobindDecorator = __webpack_require__(184);
 	
 	var _autobindDecorator2 = _interopRequireDefault(_autobindDecorator);
 	
@@ -177,6 +173,13 @@ webpackJsonp([2],{
 	        this.props.myUser.name
 	      );
 	    }
+	  }], [{
+	    key: 'propTypes',
+	    value: {
+	      myUser: _react.PropTypes.object,
+	      setStoreState: _react.PropTypes.func
+	    },
+	    enumerable: true
 	  }]);
 	
 	  var _User = User;

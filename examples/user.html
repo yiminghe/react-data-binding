@@ -2,7 +2,7 @@
 <html>
 
 <head>
-  <title>user.js - example - react-data-binding@0.2.3</title>
+  <title>user.js - example - react-data-binding@0.3.0</title>
   <meta name="viewport"
         content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
   <meta charset="utf-8"/>
@@ -257,7 +257,7 @@ Monokai Sublime style. Derived from Monokai by noformnocontent http://nn.mit-lic
 <body>
 <div class="container">
   <div class="header">
-    <h1>react-data-binding@0.2.3</h1>
+    <h1>react-data-binding@0.3.0</h1>
 
     <p>do react data binding easily</p>
   </div>
@@ -265,16 +265,19 @@ Monokai Sublime style. Derived from Monokai by noformnocontent http://nn.mit-lic
   <script src="common.js?nowrap"></script>
   <script src="user.js?nowrap"></script>
   <div class="highlight"><pre><code language="js">import {createContainer as container, createRootContainer as rootContainer} from <span class="hljs-string">'react-data-binding'</span>;
-import React, {Component} from <span class="hljs-string">'react'</span>;
+import React, {Component, PropTypes} from <span class="hljs-string">'react'</span>;
 import ReactDOM from <span class="hljs-string">'react-dom'</span>;
-import assign from <span class="hljs-string">'object-assign'</span>;
 import autobind from <span class="hljs-string">'autobind-decorator'</span>;
 
 @container({
   <span class="hljs-comment">// specify data need to be concerned</span>
-  myUser: <span class="hljs-string">'user'</span>
+  myUser: <span class="hljs-string">'user'</span>,
 })
 <span class="hljs-keyword">class</span> User extends Component {
+  static propTypes = {
+    myUser: PropTypes.object,
+    setStoreState: PropTypes.func,
+  }
 
   @autobind
   onClick(e) {
@@ -283,8 +286,8 @@ import autobind from <span class="hljs-string">'autobind-decorator'</span>;
     <span class="hljs-keyword">this</span>.props.setStoreState({
       <span class="hljs-comment">// better use immutable.js</span>
       user: {
-        name: <span class="hljs-string">'updated: '</span> + <span class="hljs-built_in">Date</span>.now()
-      }
+        name: <span class="hljs-string">'updated: '</span> + <span class="hljs-built_in">Date</span>.now(),
+      },
     });
   }
 
@@ -293,12 +296,11 @@ import autobind from <span class="hljs-string">'autobind-decorator'</span>;
   }
 }
 
-
 @rootContainer({
   // initial app data
   user: {
-    name: 'initial'
-  }
+    name: 'initial',
+  },
 })
 class App extends React.Component {
   render() {

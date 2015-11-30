@@ -2,7 +2,7 @@
 <html>
 
 <head>
-  <title>stateless-user.js - example - react-data-binding@0.2.3</title>
+  <title>stateless-user.js - example - react-data-binding@0.3.0</title>
   <meta name="viewport"
         content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
   <meta charset="utf-8"/>
@@ -257,7 +257,7 @@ Monokai Sublime style. Derived from Monokai by noformnocontent http://nn.mit-lic
 <body>
 <div class="container">
   <div class="header">
-    <h1>react-data-binding@0.2.3</h1>
+    <h1>react-data-binding@0.3.0</h1>
 
     <p>do react data binding easily</p>
   </div>
@@ -270,21 +270,21 @@ import ReactDOM from <span class="hljs-string">'react-dom'</span>;
 
 <span class="hljs-keyword">const</span> User = createContainer({
   <span class="hljs-comment">// specify data need to be concerned</span>
-  myUser: <span class="hljs-string">'user'</span>
+  myUser: <span class="hljs-string">'user'</span>,
 }, {
   mapStoreProps(store) {
     <span class="hljs-keyword">return</span> {
       <span class="hljs-comment">// actions</span>
-      changeUser(){
+      changeUser() {
         store.setState({
           user: {
             ... store.getState().user,
-            name: <span class="hljs-string">'updated: '</span> + <span class="hljs-built_in">Date</span>.now()
-          }
-        })
-      }
-    }
-  }
+            name: <span class="hljs-string">'updated: '</span> + <span class="hljs-built_in">Date</span>.now(),
+          },
+        });
+      },
+    };
+  },
 })(({myUser, changeUser}) =&gt; {
   <span class="hljs-keyword">return</span> (<span class="xml"><span class="hljs-tag">&lt;<span class="hljs-title">a</span> <span class="hljs-attribute">href</span>=<span class="hljs-value">"#"</span> <span class="hljs-attribute">onClick</span>=<span class="hljs-value">{changeUser}</span>&gt;</span>{myUser.name} at {myUser.location}<span class="hljs-tag">&lt;/<span class="hljs-title">a</span>&gt;</span>);
 });
@@ -293,8 +293,8 @@ const App = createRootContainer({
   // initial app data
   user: {
     name: 'initial',
-    location: 'china'
-  }
+    location: 'china',
+  },
 })(()=&gt; {
   return <span class="hljs-tag">&lt;<span class="hljs-title">User</span>/&gt;</span>;</span>
 });

@@ -27,21 +27,17 @@ webpackJsonp([0],{
 	
 	var _redux = __webpack_require__(2);
 	
-	var _objectAssign = __webpack_require__(12);
+	var _reactDataBinding = __webpack_require__(12);
 	
-	var _objectAssign2 = _interopRequireDefault(_objectAssign);
-	
-	var _reactDataBinding = __webpack_require__(13);
-	
-	var _autobindDecorator = __webpack_require__(185);
+	var _autobindDecorator = __webpack_require__(184);
 	
 	var _autobindDecorator2 = _interopRequireDefault(_autobindDecorator);
 	
-	var _react = __webpack_require__(21);
+	var _react = __webpack_require__(20);
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _reactDom = __webpack_require__(184);
+	var _reactDom = __webpack_require__(183);
 	
 	var _reactDom2 = _interopRequireDefault(_reactDom);
 	
@@ -51,8 +47,9 @@ webpackJsonp([0],{
 	  switch (action.type) {
 	    case 'update_user':
 	      return action.payload;
+	    default:
+	      return state;
 	  }
-	  return state;
 	}
 	
 	var rootReducer = (0, _redux.combineReducers)({
@@ -65,16 +62,18 @@ webpackJsonp([0],{
 	  }
 	});
 	
-	function mapDispatch(store) {
-	  return { dispatch: store.dispatch };
+	function mapDispatch(contextStore) {
+	  return {
+	    dispatch: contextStore.dispatch
+	  };
 	}
 	
-	var container = function container(selector) {
+	function container(selector) {
 	  var option = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
 	
 	  option.mapStoreProps = mapDispatch;
 	  return (0, _reactDataBinding.createContainer)(selector, option);
-	};
+	}
 	
 	var User = (function (_Component) {
 	  _inherits(User, _Component);
@@ -108,6 +107,13 @@ webpackJsonp([0],{
 	        this.props.myUser.name
 	      );
 	    }
+	  }], [{
+	    key: 'propTypes',
+	    value: {
+	      dispatch: _react.PropTypes.func,
+	      myUser: _react.PropTypes.object
+	    },
+	    enumerable: true
 	  }]);
 	
 	  var _User = User;
@@ -736,7 +742,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 185:
+/***/ 184:
 /***/ function(module, exports) {
 
 	'use strict';

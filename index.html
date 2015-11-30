@@ -7,7 +7,7 @@
   <meta charset="utf-8"/>
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link href="//cdnjs.cloudflare.com/ajax/libs/normalize/3.0.3/normalize.css" rel="stylesheet"/>
-  <title>react-data-binding@0.2.3 - do react data binding easily</title>
+  <title>react-data-binding@0.3.0 - do react data binding easily</title>
   <style>
     @font-face {
       font-family: octicons-anchor;
@@ -737,7 +737,7 @@
 
 <body>
 <div class="header">
-  <h1>react-data-binding@0.2.3</h1>
+  <h1>react-data-binding@0.3.0</h1>
 </div>
 <div class="examples">
   <h3>EXAMPLES</h3>
@@ -803,8 +803,10 @@ class App extends React.Component {
 }
 
 ReactDOM.render(<span class="xml"><span class="hljs-tag">&lt;<span class="hljs-title">App</span> /&gt;</span>, document.getElementById('__react-content'));</span></code></pre></div><h2>api<a id="user-content-api" name="api" class="anchor" aria-hidden="true" href="#api"><span class="octicon octicon-link"></span></a></h2><h3>Store<a id="user-content-store" name="store" class="anchor" aria-hidden="true" href="#store"><span class="octicon octicon-link"></span></a></h3><p>build in Store class, you can extend it to create your own store(such as redux store with reducer/dispatch).</p>
-<h3>createRootContainer(initialAppData: Object|Store): (Function(WrappedComponent:ReactComponent):ReactComponent)<a id="user-content-createrootcontainer(initialappdata:-object|store):-(function(wrappedcomponent:reactcomponent):reactcomponent)" name="createrootcontainer(initialappdata:-object|store):-(function(wrappedcomponent:reactcomponent):reactcomponent)" class="anchor" aria-hidden="true" href="#createrootcontainer(initialappdata:-object|store):-(function(wrappedcomponent:reactcomponent):reactcomponent)"><span class="octicon octicon-link"></span></a></h3><p>bind the initial global store state to react root component and generate a high order React Component.</p>
-<h3>createContainer(selector: Object|Function, option: {pure=true, mapStoreProps:Function():Object}): (Function(WrappedComponent:ReactComponent):ReactComponent)<a id="user-content-createcontainer(selector:-object|function,-option:-{pure=true,-mapstoreprops:function():object}):-(function(wrappedcomponent:reactcomponent):reactcomponent)" name="createcontainer(selector:-object|function,-option:-{pure=true,-mapstoreprops:function():object}):-(function(wrappedcomponent:reactcomponent):reactcomponent)" class="anchor" aria-hidden="true" href="#createcontainer(selector:-object|function,-option:-{pure=true,-mapstoreprops:function():object}):-(function(wrappedcomponent:reactcomponent):reactcomponent)"><span class="octicon octicon-link"></span></a></h3><p>bind the subset of store state to react child component and generate a high order React Component.</p>
+<h3>createRootContainer(initialAppData: Object|Store, option: {storeName=&#39;store&#39;}): (Function(WrappedComponent:ReactComponent):ReactComponent)<a id="user-content-createrootcontainer(initialappdata:-object|store,-option:-{storename=&#39;store&#39;}):-(function(wrappedcomponent:reactcomponent):reactcomponent)" name="createrootcontainer(initialappdata:-object|store,-option:-{storename=&#39;store&#39;}):-(function(wrappedcomponent:reactcomponent):reactcomponent)" class="anchor" aria-hidden="true" href="#createrootcontainer(initialappdata:-object|store,-option:-{storename=&#39;store&#39;}):-(function(wrappedcomponent:reactcomponent):reactcomponent)"><span class="octicon octicon-link"></span></a></h3><p>bind the initial global store state to react root component and generate a high order React Component.</p>
+<p>will save global store to this.context[storeName].</p>
+<h3>createContainer(selector: Object|Function, option: {pure=true, mapStoreProps:Function():Object, storeName=&#39;store&#39;}): (Function(WrappedComponent:ReactComponent):ReactComponent)<a id="user-content-createcontainer(selector:-object|function,-option:-{pure=true,-mapstoreprops:function():object,-storename=&#39;store&#39;}):-(function(wrappedcomponent:reactcomponent):reactcomponent)" name="createcontainer(selector:-object|function,-option:-{pure=true,-mapstoreprops:function():object,-storename=&#39;store&#39;}):-(function(wrappedcomponent:reactcomponent):reactcomponent)" class="anchor" aria-hidden="true" href="#createcontainer(selector:-object|function,-option:-{pure=true,-mapstoreprops:function():object,-storename=&#39;store&#39;}):-(function(wrappedcomponent:reactcomponent):reactcomponent)"><span class="octicon octicon-link"></span></a></h3><p>bind the subset of store state to react child component and generate a high order React Component.</p>
+<p>will receive this.context[storeName] as global store.</p>
 <p>WrappedComponent will receive the specified subset of store state and return value of option.mapStoreProps(store) as props.</p>
 <p>default mapStoreProps will generate the following props:</p>
 <h4>setStoreState(state: Object)<a id="user-content-setstorestate(state:-object)" name="setstorestate(state:-object)" class="anchor" aria-hidden="true" href="#setstorestate(state:-object)"><span class="octicon octicon-link"></span></a></h4><p>update the global store state and re render react child components which bind to the specified subset of store state.</p>
