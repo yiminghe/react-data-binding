@@ -46,7 +46,8 @@ export function createContainer(selector_, option = {}) {
         };
       }
 
-      componentDidMount() {
+      // use componentWillMount instead of componentDidMount to support setState inside WrappedComponent's componentDidMount and componentWillMount
+      componentWillMount() {
         if (!this.unsubscribe) {
           this.unsubscribe = this.context[storeName].subscribe(this.onChange);
         }
