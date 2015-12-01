@@ -1,3 +1,5 @@
+/* eslint react/no-multi-comp:0 */
+
 import {createContainer as container, createRootContainer as rootContainer} from 'react-data-binding';
 import React, {Component, PropTypes} from 'react';
 import ReactDOM from 'react-dom';

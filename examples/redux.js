@@ -1,3 +1,5 @@
+/* eslint react/no-multi-comp:0 */
+
 import { createStore, combineReducers } from 'redux';
 import {createContainer, createRootContainer as rootContainer} from 'react-data-binding';
 import autobind from 'autobind-decorator';
