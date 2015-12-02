@@ -22,6 +22,10 @@ export class Store {
   }
 
   batch(callback) {
+    if (this.batching) {
+      callback();
+      return;
+    }
     this.batching = true;
     const originalState = this.state;
     callback();
