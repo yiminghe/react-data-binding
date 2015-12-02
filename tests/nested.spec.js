@@ -97,7 +97,7 @@ describe('nested', () => {
     expect(userDom.innerHTML).to.be('b');
   });
 
-  it.only('allow nested root container', () => {
+  it('allow nested root container', () => {
     let index = 0;
     let user1Render = 0;
     let user2Render = 0;

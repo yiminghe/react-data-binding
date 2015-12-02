@@ -1,5 +1,7 @@
 # History
 ----
+### add store.batch to batch run store.setState
+
 ### 0.3.0
 
 - add storeName option for createContainer/createRootContainer
