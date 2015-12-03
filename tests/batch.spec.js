@@ -26,33 +26,31 @@ describe('batch', () => {
     let User = React.createClass({
       propTypes: {
         setStoreState: PropTypes.func,
-        batchSetStore: PropTypes.func,
+        batchStore: PropTypes.func,
         myUser: PropTypes.object,
       },
 
       onClick(e) {
         e.preventDefault();
-        const {setStoreState, myUser, batchSetStore} = this.props;
-        setTimeout(() => {
-          batchSetStore(() => {
-            // trigger re render
-            setStoreState({
-              // or use immutable.js
-              user: {
-                ...myUser,
-                name: 'updated:' + (++index),
-              },
-            });
-
-            setStoreState({
-              // or use immutable.js
-              user: {
-                ...myUser,
-                name: 'updated:' + (++index),
-              },
-            });
+        const {setStoreState, myUser, batchStore} = this.props;
+        setTimeout(batchStore(() => {
+          // trigger re render
+          setStoreState({
+            // or use immutable.js
+            user: {
+              ...myUser,
+              name: 'updated:' + (++index),
+            },
           });
-        }, 0);
+
+          setStoreState({
+            // or use immutable.js
+            user: {
+              ...myUser,
+              name: 'updated:' + (++index),
+            },
+          });
+        }), 0);
       },
       render() {
         rendered++;

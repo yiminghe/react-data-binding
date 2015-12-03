@@ -12,7 +12,7 @@ function defaultMapStoreProps(store) {
   return {
     getStoreState: store.getState,
     setStoreState: store.setState,
-    batchSetStore: store.batch,
+    batchStore: store.batch,
   };
 }
 
