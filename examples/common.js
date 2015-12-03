@@ -291,7 +291,8 @@
 	function defaultMapStoreProps(store) {
 	  return {
 	    getStoreState: store.getState,
-	    setStoreState: store.setState
+	    setStoreState: store.setState,
+	    batchStore: store.batch
 	  };
 	}
 	
@@ -21003,8 +21004,10 @@
 	    _classCallCheck(this, Store);
 	
 	    this.state = initialData;
+	    this.batching = false;
 	    this.listeners = [];
 	    this.fireChange = this.fireChange.bind(this);
+	    this.batch = this.batch.bind(this);
 	    this.getState = this.getState.bind(this);
 	    this.setState = this.setState.bind(this);
 	  }
@@ -21013,9 +21016,38 @@
 	    key: 'setState',
 	    value: function setState(state) {
 	      this.state = _extends({}, this.state, state);
+	      if (!this.batching) {
+	        this.batchFireChange();
+	      }
+	    }
+	  }, {
+	    key: 'batch',
+	    value: function batch(callback) {
+	      var _this = this;
+	
+	      return function () {
+	        for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+	          args[_key] = arguments[_key];
+	        }
+	
+	        if (_this.batching) {
+	          callback.apply(null, args);
+	          return;
+	        }
+	        _this.batching = true;
+	        var originalState = _this.state;
+	        callback.apply(null, args);
+	        _this.batching = false;
+	        if (originalState !== _this.state) {
+	          _this.batchFireChange();
+	        }
+	      };
+	    }
+	  }, {
+	    key: 'batchFireChange',
+	    value: function batchFireChange() {
 	      // TODO debounce ?
 	      _reactDom2['default'].unstable_batchedUpdates(this.fireChange);
-	      // this.fireChange();
 	    }
 	  }, {
 	    key: 'fireChange',
