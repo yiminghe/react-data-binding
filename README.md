@@ -100,6 +100,10 @@ update the global store state and re render react child components which bind to
 
 get the global store state. use with caution.
 
+#### batchStore(callback: Function): Function
+
+return a function which will batch setStoreState calls inside callback.
+
 ## Test Case
 
 http://localhost:8111/tests/runner.html?coverage
