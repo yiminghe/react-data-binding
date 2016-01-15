@@ -219,30 +219,13 @@
 	
 	var _createContainer = __webpack_require__(14);
 	
-	Object.defineProperty(exports, 'createContainer', {
-	  enumerable: true,
-	  get: function get() {
-	    return _createContainer.createContainer;
-	  }
-	});
-	
 	var _createRootContainer = __webpack_require__(181);
-	
-	Object.defineProperty(exports, 'createRootContainer', {
-	  enumerable: true,
-	  get: function get() {
-	    return _createRootContainer.createRootContainer;
-	  }
-	});
 	
 	var _Store = __webpack_require__(182);
 	
-	Object.defineProperty(exports, 'Store', {
-	  enumerable: true,
-	  get: function get() {
-	    return _Store.Store;
-	  }
-	});
+	exports.createContainer = _createContainer.createContainer;
+	exports.createRootContainer = _createRootContainer.createRootContainer;
+	exports.Store = _Store.Store;
 
 /***/ },
 /* 14 */

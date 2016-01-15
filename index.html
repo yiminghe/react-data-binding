@@ -7,7 +7,7 @@
   <meta charset="utf-8"/>
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link href="//cdnjs.cloudflare.com/ajax/libs/normalize/3.0.3/normalize.css" rel="stylesheet"/>
-  <title>react-data-binding@0.4.0 - do react data binding easily</title>
+  <title>react-data-binding@0.4.1 - do react data binding easily</title>
   <style>
     @font-face {
       font-family: octicons-anchor;
@@ -737,7 +737,7 @@
 
 <body>
 <div class="header">
-  <h1>react-data-binding@0.4.0</h1>
+  <h1>react-data-binding@0.4.1</h1>
 </div>
 <div class="examples">
   <h3>EXAMPLES</h3>
@@ -811,6 +811,7 @@ ReactDOM.render(<span class="xml"><span class="hljs-tag">&lt;<span class="hljs-t
 <p>default mapStoreProps will generate the following props:</p>
 <h4>setStoreState(state: Object)<a id="user-content-setstorestate(state:-object)" name="setstorestate(state:-object)" class="anchor" aria-hidden="true" href="#setstorestate(state:-object)"><span class="octicon octicon-link"></span></a></h4><p>update the global store state and re render react child components which bind to the specified subset of store state.</p>
 <h4>getStoreState()<a id="user-content-getstorestate()" name="getstorestate()" class="anchor" aria-hidden="true" href="#getstorestate()"><span class="octicon octicon-link"></span></a></h4><p>get the global store state. use with caution.</p>
+<h4>batchStore(callback: Function): Function<a id="user-content-batchstore(callback:-function):-function" name="batchstore(callback:-function):-function" class="anchor" aria-hidden="true" href="#batchstore(callback:-function):-function"><span class="octicon octicon-link"></span></a></h4><p>return a function which will batch setStoreState calls inside callback.</p>
 <h2>Test Case<a id="user-content-test-case" name="test-case" class="anchor" aria-hidden="true" href="#test-case"><span class="octicon octicon-link"></span></a></h2><p><a href="http://localhost:8111/tests/runner.html?coverage" title="null">http://localhost:8111/tests/runner.html?coverage</a></p>
 <h2>Coverage<a id="user-content-coverage" name="coverage" class="anchor" aria-hidden="true" href="#coverage"><span class="octicon octicon-link"></span></a></h2><p><a href="http://localhost:8111/node_modules/rc-server/node_modules/node-jscover/lib/front-end/jscoverage.html?w=http://localhost:8001/tests/runner.html?coverage" title="null">http://localhost:8111/node_modules/rc-server/node_modules/node-jscover/lib/front-end/jscoverage.html?w=http://localhost:8001/tests/runner.html?coverage</a></p>
 <h2>License<a id="user-content-license" name="license" class="anchor" aria-hidden="true" href="#license"><span class="octicon octicon-link"></span></a></h2><p>react-data-binding is released under the MIT license.</p>
