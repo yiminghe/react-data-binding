@@ -24,6 +24,7 @@
   "config": {
     "port": 8111
   },
+  "packageManager": "yarn@1.22.17",
   "scripts": {
     "build": "rc-tools run build",
     "gh-pages": "rc-tools run gh-pages",
