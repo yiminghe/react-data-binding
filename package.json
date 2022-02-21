@@ -1,6 +1,6 @@
 {
   "name": "react-data-binding",
-  "version": "0.4.1",
+  "version": "0.4.2",
   "description": "do react data binding easily",
   "keywords": [
     "react",
@@ -20,7 +20,7 @@
   "bugs": {
     "url": "https://github.com/yiminghe/react-data-binding/issues"
   },
-  "licenses": "MIT",
+  "license": "MIT",
   "config": {
     "port": 8111
   },
@@ -46,10 +46,14 @@
     "react-dom": "0.14.x",
     "redux": "~3.0.4"
   },
+  "resolutions": {
+    "graceful-fs": "^4.2.9"
+  },
   "pre-commit": [
     "lint"
   ],
   "dependencies": {
+    "prop-types":"15.x",
     "hoist-non-react-statics": "~1.0.3",
     "reselect": "~2.0.1",
     "shallowequal": "~0.2.2"
