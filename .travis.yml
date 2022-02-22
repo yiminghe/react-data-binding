@@ -28,6 +28,5 @@ script:
   fi
 env:
   matrix:
-  - TEST_TYPE=lint
   - TEST_TYPE=browser-test
   - TEST_TYPE=browser-test-cover
