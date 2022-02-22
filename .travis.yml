@@ -16,12 +16,15 @@ node_js:
 before_install:
   - corepack enable
 
+install:
+ - yarn
+ 
 script:
 - |
   if [ "$TEST_TYPE" = test ]; then
-    npm test
+    yarn run test
   else
-    npm run $TEST_TYPE
+    yarn run $TEST_TYPE
   fi
 env:
   matrix:

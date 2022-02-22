@@ -14,7 +14,7 @@ do react data binding in an easy way. inspired by redux.
 [npm-image]: http://img.shields.io/npm/v/react-data-binding.svg?style=flat-square
 [npm-url]: http://npmjs.org/package/react-data-binding
 [travis-image]: https://img.shields.io/travis/yiminghe/react-data-binding.svg?style=flat-square
-[travis-url]: https://travis-ci.org/yiminghe/react-data-binding
+[travis-url]: https://app.travis-ci.com/github/yiminghe/react-data-binding
 [coveralls-image]: https://img.shields.io/coveralls/yiminghe/react-data-binding.svg?style=flat-square
 [coveralls-url]: https://coveralls.io/r/yiminghe/react-data-binding?branch=master
 [gemnasium-image]: http://img.shields.io/gemnasium/yiminghe/react-data-binding.svg?style=flat-square
